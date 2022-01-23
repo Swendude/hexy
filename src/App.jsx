@@ -2,19 +2,36 @@ import "./App.css";
 import { Stage, Layer, Circle, Rect, Group } from "react-konva";
 import { useEffect, useState } from "react";
 import { defineGrid, extendHex } from "honeycomb-grid";
+import { allEdges, uniqueLines } from "./gridUtils";
 import Hex from "./Components/Hex";
+import HexLines from "./Components/HexLines";
+import { FpsView } from "react-fps";
+
 function App() {
   const [grid, setGrid] = useState(null);
-
+  const [gridLines, setGridLines] = useState(null);
   useEffect(() => {
     const Hex = extendHex({ size: 18, color: "#B0BEA9" });
     const GridFactory = defineGrid(Hex);
-    setGrid(GridFactory.rectangle({ width:20, height:20 }));
+    setGrid(GridFactory.rectangle({ width: 20, height: 20 }));
   }, []);
 
   useEffect(() => {
     if (grid) {
-      console.log({ x: grid.pointWidth() / 2, y: grid.pointHeight() / 2 });
+      let gridEdges = [];
+      grid.forEach((hex) => {
+        gridEdges = gridEdges.concat(
+          allEdges(
+            hex
+              .corners()
+              .map((cor) => ({
+                x: cor.x + hex.toPoint().x,
+                y: cor.y + hex.toPoint().y,
+              }))
+          )
+        );
+      });
+      setGridLines(uniqueLines(gridEdges));
     }
   }, [grid]);
   // Turns the grid object into an array object, usefull for mapping
@@ -30,7 +47,11 @@ function App() {
       {!grid ? (
         <p>Loading</p>
       ) : (
-        <Stage className="Stage" width={grid.pointWidth() + 20} height={grid.pointHeight() + 20}>
+        <Stage
+          className="Stage"
+          width={grid.pointWidth() + 20}
+          height={grid.pointHeight() + 20}
+        >
           <Layer>
             <Group
               offset={{
@@ -46,10 +67,14 @@ function App() {
                   pcolor={hex.color}
                 />
               ))}
+              {gridLines ? <HexLines lines={gridLines}/> : <></> }
             </Group>
           </Layer>
         </Stage>
       )}
+      <div>
+        <FpsView />
+      </div>
     </div>
   );
 }

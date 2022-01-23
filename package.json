@@ -10,6 +10,7 @@
     "konva": "^8.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-fps": "^1.0.6",
     "react-konva": "^17.0.2-5",
     "react-scripts": "5.0.0",
     "web-vitals": "^2.1.4"
@@ -37,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
   }
 }
