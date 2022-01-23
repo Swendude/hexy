@@ -11,9 +11,9 @@ function App() {
   const [grid, setGrid] = useState(null);
   const [gridLines, setGridLines] = useState(null);
   useEffect(() => {
-    const Hex = extendHex({ size: 18, color: "#B0BEA9" });
+    const Hex = extendHex({ size: 27, color: "#B0BEA9" });
     const GridFactory = defineGrid(Hex);
-    setGrid(GridFactory.rectangle({ width: 20, height: 20 }));
+    setGrid(GridFactory.rectangle({ width: 15, height: 15 }));
   }, []);
 
   useEffect(() => {

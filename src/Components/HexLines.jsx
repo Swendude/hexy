@@ -6,21 +6,24 @@ const HexLines = ({lines}) => {
         ctx.beginPath();
         lines.forEach(line => {
           ctx.moveTo(line[0].x, line[0].y);
-          ctx.lineTo(line[1].x, line[1].y)
-        //   const next = corners[(i + 1) % corners.length];
-        //   const nexthalfpointx = 0.7 * x + 0.3 * next.x;
-        //   const nexthalfpointy = 0.7 * y + 0.3 * next.y;
-        //   ctx.lineTo(nexthalfpointx, nexthalfpointy);
-        //   ctx.moveTo(x, y);
-        //   let prev = null;
-        //   if (i == 0) {
-        //     prev = corners[5];
-        //   } else {
-        //     prev = corners[i - 1];
-        //   }
-        //   const prevhalfpointx = 0.7 * x + 0.3 * prev.x;
-        //   const prevhalfpointy = 0.7 * y + 0.3 * prev.y;
-        //   ctx.lineTo(prevhalfpointx, prevhalfpointy);
+        
+          const nextpointx = 0.8 * line[0].x + 0.2 * line[1].x;
+          const nextpointy = 0.8 * line[0].y + 0.2 * line[1].y;
+          ctx.lineTo(nextpointx, nextpointy);
+            
+          ctx.moveTo(line[1].x, line[1].y)
+          const nextpointx_ = 0.8 * line[1].x + 0.2 * line[0].x;
+          const nextpointy_ = 0.8 * line[1].y + 0.2 * line[0].y;
+          ctx.lineTo(nextpointx_, nextpointy_);
+
+          const nextpointx__ = 0.6 * nextpointx + 0.4 * nextpointx_;
+          const nextpointy__ = 0.6 * nextpointy + 0.4 * nextpointy_;
+          ctx.moveTo(nextpointx__, nextpointy__)
+          
+          const nextpointx___ = 0.6 * nextpointx_ + 0.4 * nextpointx;
+          const nextpointy___ = 0.6 * nextpointy_ + 0.4 * nextpointy;
+          ctx.lineTo(nextpointx___, nextpointy___)
+
         });
         ctx.fillStrokeShape(shp);
       };
