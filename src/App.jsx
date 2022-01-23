@@ -30,21 +30,20 @@ function App() {
       {!grid ? (
         <p>Loading</p>
       ) : (
-        <Stage className="Stage" width={grid.pointWidth()} height={grid.pointHeight()}>
+        <Stage className="Stage" width={grid.pointWidth() + 20} height={grid.pointHeight() + 20}>
           <Layer>
-            <Rect x={0} y={0} width={grid.pointWidth()} height={grid.pointHeight()} fill={"#B0BEA9"} />
             <Group
-              // offset={{
-              //   x: -(grid.pointWidth() / 2),
-              //   y: -(grid.pointHeight() / 2),
-              // }}
+              offset={{
+                x: -10,
+                y: -10,
+              }}
             >
               {gridToArr(grid).map((hex, i) => (
                 <Hex
                   key={i}
                   pos={hex.toPoint()}
                   corners={hex.corners()}
-                  color={hex.color}
+                  pcolor={hex.color}
                 />
               ))}
             </Group>

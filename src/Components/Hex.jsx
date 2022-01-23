@@ -1,9 +1,32 @@
 import { Shape, Circle, Text } from "react-konva";
-import { useState } from "react";
-const Hex = ({ pos, corners, pcolor}) => {
-   const [color, setColor] = useState(pcolor);
-  
-   const renderHex = (ctx, shp) => {
+import { useState, useEffect } from "react";
+import { extendHex } from "honeycomb-grid";
+const Hex = ({ pos, corners, pcolor }) => {
+  const [color, setColor] = useState(pcolor);
+
+  const renderHexCorns = (ctx, shp) => {
+      console.log('hi')
+    ctx.beginPath();
+    corners.forEach(({ x, y }, i) => {
+      ctx.moveTo(x, y);
+      const next = corners[(i + 1) % corners.length];
+      const nexthalfpointx = 0.7 * x + 0.3 * next.x;
+      const nexthalfpointy = 0.7 * y + 0.3 * next.y;
+      ctx.lineTo(nexthalfpointx, nexthalfpointy);
+      ctx.moveTo(x, y);
+      let prev = null;
+      if (i == 0) {
+        prev = corners[5];
+      } else {
+        prev = corners[i - 1];
+      }
+      const prevhalfpointx = 0.7 * x + 0.3 * prev.x;
+      const prevhalfpointy = 0.7 * y + 0.3 * prev.y;
+      ctx.lineTo(prevhalfpointx, prevhalfpointy);
+    });
+    ctx.fillStrokeShape(shp)
+  };
+  const renderHex = (ctx, shp) => {
     const [firstCor, ...others] = corners;
     ctx.beginPath();
     ctx.moveTo(firstCor.x, firstCor.y);
@@ -24,11 +47,19 @@ const Hex = ({ pos, corners, pcolor}) => {
         x={pos.x}
         y={pos.y}
         fill={color}
-        stroke={"#92AA83"}
+        strokeWidth={0}
         sceneFunc={renderHex}
-        onMouseOver={() => setColor('red')}
+        onMouseOver={() => setColor("red")}
         onMouseLeave={() => setColor(pcolor)}
       />
+      <Shape
+        x={pos.x}
+        y={pos.y}
+        stroke={"#000000"}
+        strokeWidth={1}
+        sceneFunc={renderHexCorns}
+      />
+      
     </>
   );
 };
