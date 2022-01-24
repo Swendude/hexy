@@ -1,42 +1,42 @@
-import { Shape } from "react-konva"
+import { Shape } from "react-konva";
+import { subDiv } from "../gridUtils";
 
-const HexLines = ({lines}) => {
-    console.log('render lines')
-    const renderLines = (ctx, shp) => {
-        ctx.beginPath();
-        lines.forEach(line => {
-          ctx.moveTo(line[0].x, line[0].y);
-        
-          const nextpointx = 0.8 * line[0].x + 0.2 * line[1].x;
-          const nextpointy = 0.8 * line[0].y + 0.2 * line[1].y;
-          ctx.lineTo(nextpointx, nextpointy);
-            
-          ctx.moveTo(line[1].x, line[1].y)
-          const nextpointx_ = 0.8 * line[1].x + 0.2 * line[0].x;
-          const nextpointy_ = 0.8 * line[1].y + 0.2 * line[0].y;
-          ctx.lineTo(nextpointx_, nextpointy_);
+const HexLines = ({ lines }) => {
+  const renderLines = (ctx, shp) => {
+    ctx.beginPath();
+    lines.forEach((line) => {
+      ctx.moveTo(line[0].x, line[0].y);
+      const fwd = subDiv(line[0], line[1], 0.28);
+      ctx.lineTo(fwd.x, fwd.y);
+      ctx.moveTo(line[1].x, line[1].y);
+      const bwd = subDiv(line[1], line[0], 0.28);
+      ctx.lineTo(bwd.x, bwd.y);
+      // pick two random points between gap
+      let r1, r2;
+      if (Math.round(Math.random()) === 0) {
+        r1 = subDiv(fwd, bwd, Math.random().toFixed(2));
+        r2 = subDiv(fwd, bwd, Math.random().toFixed(2));
+      } else {
+        r1 = subDiv(bwd, fwd, Math.random().toFixed(2));
+        r2 = subDiv(bwd, fwd, Math.random().toFixed(2));
+      }
+      ctx.moveTo(r1.x, r1.y);
+      ctx.lineTo(r2.x, r2.y);
+    });
+    ctx.fillStrokeShape(shp);
+  };
 
-          const nextpointx__ = 0.6 * nextpointx + 0.4 * nextpointx_;
-          const nextpointy__ = 0.6 * nextpointy + 0.4 * nextpointy_;
-          ctx.moveTo(nextpointx__, nextpointy__)
-          
-          const nextpointx___ = 0.6 * nextpointx_ + 0.4 * nextpointx;
-          const nextpointy___ = 0.6 * nextpointy_ + 0.4 * nextpointy;
-          ctx.lineTo(nextpointx___, nextpointy___)
+  return (
+    <Shape
+      x={0}
+      y={0}
+      strokeWidth={2}
+      lineJoin={"round"}
+      lineCap={"butt"}
+      stroke={"#00000099"}
+      sceneFunc={renderLines}
+    />
+  );
+};
 
-        });
-        ctx.fillStrokeShape(shp);
-      };
-
-    return (
-        <Shape
-        x={0}
-        y={0}
-        strokeWidth={1}
-        stroke={'#000'}
-        sceneFunc={renderLines}
-      />
-    )
-}
-
-export default HexLines
+export default HexLines;

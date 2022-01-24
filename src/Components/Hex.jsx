@@ -28,8 +28,8 @@ const Hex = ({ pos, corners, pcolor }) => {
         fill={color}
         strokeWidth={0}
         sceneFunc={renderHex}
-        onMouseOver={() => setColor("red")}
-        onMouseLeave={() => setColor(pcolor)}
+        // onMouseOver={() => setColor("red")}
+        // onMouseLeave={() => setColor(pcolor)}
       />
     </>
   );

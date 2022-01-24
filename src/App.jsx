@@ -11,7 +11,7 @@ function App() {
   const [grid, setGrid] = useState(null);
   const [gridLines, setGridLines] = useState(null);
   useEffect(() => {
-    const Hex = extendHex({ size: 27, color: "#B0BEA9" });
+    const Hex = extendHex({ size: 27, color: "#fff" });
     const GridFactory = defineGrid(Hex);
     setGrid(GridFactory.rectangle({ width: 15, height: 15 }));
   }, []);
@@ -22,12 +22,10 @@ function App() {
       grid.forEach((hex) => {
         gridEdges = gridEdges.concat(
           allEdges(
-            hex
-              .corners()
-              .map((cor) => ({
-                x: cor.x + hex.toPoint().x,
-                y: cor.y + hex.toPoint().y,
-              }))
+            hex.corners().map((cor) => ({
+              x: cor.x + hex.toPoint().x,
+              y: cor.y + hex.toPoint().y,
+            }))
           )
         );
       });
@@ -67,7 +65,7 @@ function App() {
                   pcolor={hex.color}
                 />
               ))}
-              {gridLines ? <HexLines lines={gridLines}/> : <></> }
+              {gridLines ? <HexLines lines={gridLines} /> : <></>}
             </Group>
           </Layer>
         </Stage>
