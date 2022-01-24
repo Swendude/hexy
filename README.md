@@ -1,4 +1,4 @@
-# Hexy
+# Hexheim
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b2757682-0280-4fc6-aad8-2b68fcb9b0c6/deploy-status)](https://app.netlify.com/sites/focused-mahavira-a98ad4/deploys)
 
 Hex map thingamajing.
