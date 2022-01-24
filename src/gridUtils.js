@@ -37,4 +37,10 @@ const subDiv = (from, to, division) => ({
   y: (1 - division) * from.y + division * to.y,
 });
 
-export { uniqueLines, allEdges, subDiv, comparePoints };
+const generateRands = () => ({
+  start: Math.random().toFixed(2),
+  end: Math.random().toFixed(2),
+  winner: Math.round(Math.random()),
+});
+
+export { generateRands, uniqueLines, allEdges, subDiv, comparePoints };

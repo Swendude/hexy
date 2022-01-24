@@ -10,6 +10,7 @@ import { FpsView } from "react-fps";
 function App() {
   const [grid, setGrid] = useState(null);
   const [gridLines, setGridLines] = useState(null);
+
   useEffect(() => {
     const Hex = extendHex({ size: 27, color: "#fff" });
     const GridFactory = defineGrid(Hex);

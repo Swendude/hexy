@@ -1,10 +1,12 @@
 import { Shape } from "react-konva";
-import { subDiv } from "../gridUtils";
-
+import { subDiv, generateRands } from "../gridUtils";
+import { useState } from "react";
 const HexLines = ({ lines }) => {
+  const [rands, setRands] = useState(lines.map(() => generateRands()));
+
   const renderLines = (ctx, shp) => {
     ctx.beginPath();
-    lines.forEach((line) => {
+    lines.forEach((line, i) => {
       ctx.moveTo(line[0].x, line[0].y);
       const fwd = subDiv(line[0], line[1], 0.28);
       ctx.lineTo(fwd.x, fwd.y);
@@ -13,12 +15,12 @@ const HexLines = ({ lines }) => {
       ctx.lineTo(bwd.x, bwd.y);
       // pick two random points between gap
       let r1, r2;
-      if (Math.round(Math.random()) === 0) {
-        r1 = subDiv(fwd, bwd, Math.random().toFixed(2));
-        r2 = subDiv(fwd, bwd, Math.random().toFixed(2));
+      if (rands[i].winner === 0) {
+        r1 = subDiv(fwd, bwd, rands[i].start);
+        r2 = subDiv(fwd, bwd, rands[i].end);
       } else {
-        r1 = subDiv(bwd, fwd, Math.random().toFixed(2));
-        r2 = subDiv(bwd, fwd, Math.random().toFixed(2));
+        r1 = subDiv(bwd, fwd, rands[i].start);
+        r2 = subDiv(bwd, fwd, rands[i].end);
       }
       ctx.moveTo(r1.x, r1.y);
       ctx.lineTo(r2.x, r2.y);
