@@ -2,19 +2,20 @@ import "./App.css";
 import { Stage, Layer, Circle, Rect, Group } from "react-konva";
 import { useEffect, useState } from "react";
 import { defineGrid, extendHex } from "honeycomb-grid";
-import { allEdges, uniqueLines } from "./gridUtils";
+import { getEdgeLines, allEdges, uniqueLines } from "./gridUtils";
 import Hex from "./Components/Hex";
 import HexLines from "./Components/HexLines";
+import EdgeLines from "./Components/EdgeLines";
 import { FpsView } from "react-fps";
 
 function App() {
   const [grid, setGrid] = useState(null);
   const [gridLines, setGridLines] = useState(null);
-
+  const [edgeLines, setEdgeLines] = useState(null);
   useEffect(() => {
-    const Hex = extendHex({ size: 27, color: "#fff" });
+    const Hex = extendHex({ size: 36, color: "#fff" });
     const GridFactory = defineGrid(Hex);
-    setGrid(GridFactory.rectangle({ width: 15, height: 15 }));
+    setGrid(GridFactory.rectangle({ width: 12, height: 12 }));
   }, []);
 
   useEffect(() => {
@@ -30,7 +31,10 @@ function App() {
           )
         );
       });
-      setGridLines(uniqueLines(gridEdges));
+      const uniques = uniqueLines(gridEdges);
+      const edges = uniqueLines(getEdgeLines(grid, grid.width, grid.height));
+      setGridLines(uniques);
+      setEdgeLines(edges);
     }
   }, [grid]);
   // Turns the grid object into an array object, usefull for mapping
@@ -67,6 +71,7 @@ function App() {
                 />
               ))}
               {gridLines ? <HexLines lines={gridLines} /> : <></>}
+              {edgeLines ? <EdgeLines lines={edgeLines} /> : <></>}
             </Group>
           </Layer>
         </Stage>

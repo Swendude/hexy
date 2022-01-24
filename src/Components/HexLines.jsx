@@ -32,10 +32,10 @@ const HexLines = ({ lines }) => {
     <Shape
       x={0}
       y={0}
-      strokeWidth={2}
+      strokeWidth={1}
       lineJoin={"round"}
       lineCap={"butt"}
-      stroke={"#00000099"}
+      stroke={"#000"}
       sceneFunc={renderLines}
     />
   );

@@ -4,6 +4,7 @@ import { extendHex } from "honeycomb-grid";
 
 const Hex = ({ pos, corners, pcolor }) => {
   const [color, setColor] = useState(pcolor);
+  const [scale, setScale] = useState(0);
 
   const renderHex = (ctx, shp) => {
     const [firstCor, ...others] = corners;
@@ -26,10 +27,13 @@ const Hex = ({ pos, corners, pcolor }) => {
         x={pos.x}
         y={pos.y}
         fill={color}
-        strokeWidth={0}
         sceneFunc={renderHex}
-        onMouseOver={() => setColor("#eee")}
-        onMouseLeave={() => setColor(pcolor)}
+        onMouseOver={() => {
+          setColor("#000");
+        }}
+        onMouseLeave={() => {
+          setColor(pcolor);
+        }}
       />
     </>
   );
