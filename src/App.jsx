@@ -7,15 +7,25 @@ import Hex from "./Components/Hex";
 import HexLines from "./Components/HexLines";
 import EdgeLines from "./Components/EdgeLines";
 import { FpsView } from "react-fps";
+import SimplexNoise from "simplex-noise";
 
 function App() {
-  const [grid, setGrid] = useState(null);
   const [gridLines, setGridLines] = useState(null);
   const [edgeLines, setEdgeLines] = useState(null);
+  const [noise, setNoise] = useState(new SimplexNoise());
+  const [grid, setGrid] = useState(null);
+
   useEffect(() => {
-    const Hex = extendHex({ size: 36, color: "#fff" });
-    const GridFactory = defineGrid(Hex);
-    setGrid(GridFactory.rectangle({ width: 12, height: 12 }));
+    const hexf = extendHex({ size: 24, color: 0.1 });
+    const g = defineGrid(hexf);
+    const newGrid = g.rectangle({ width: 20, height: 20 });
+    // const mappedGrid = newGrid.map((hex, i) => hex.set({ color: 0.5 }));
+    // newGrid.set(0, hexf({ color: 0.6 }));
+    newGrid.forEach((hex, i) => {
+      newGrid.set(i, hexf({ color: 0.6 }));
+    });
+    console.log(g.isValidHex(newGrid.get(0)));
+    setGrid(newGrid);
   }, []);
 
   useEffect(() => {

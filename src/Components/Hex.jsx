@@ -3,8 +3,7 @@ import { memo, useState, useEffect } from "react";
 import { extendHex } from "honeycomb-grid";
 
 const Hex = ({ pos, corners, pcolor }) => {
-  const [color, setColor] = useState(pcolor);
-  const [scale, setScale] = useState(0);
+  const [color, setColor] = useState(null);
 
   const renderHex = (ctx, shp) => {
     const [firstCor, ...others] = corners;
@@ -16,8 +15,13 @@ const Hex = ({ pos, corners, pcolor }) => {
     ctx.closePath();
     ctx.fillStrokeShape(shp);
   };
+  useEffect(() => {
+    setColor(pcolor);
+  }, []);
+  // useEffect(() => {
+  //   console.log(color);
+  // }, [color]);
 
-  //   return ;
   return (
     <>
       {/* {corners.map(({ x, y }, i) => (
@@ -26,14 +30,9 @@ const Hex = ({ pos, corners, pcolor }) => {
       <Shape
         x={pos.x}
         y={pos.y}
-        fill={color}
+        opacity={color}
+        fill={"#000"}
         sceneFunc={renderHex}
-        onMouseOver={() => {
-          setColor("#000");
-        }}
-        onMouseLeave={() => {
-          setColor(pcolor);
-        }}
       />
     </>
   );
