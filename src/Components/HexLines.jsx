@@ -39,6 +39,7 @@ const HexLines = ({ lines }) => {
       stroke={"#1C0B19"}
       opacity={0.6}
       sceneFunc={renderLines}
+      listening={false}
     />
   );
 };

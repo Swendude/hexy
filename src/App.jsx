@@ -1,5 +1,5 @@
 import "./App.css";
-import { Stage, Layer, Circle, Rect, Group } from "react-konva";
+import { Stage, Layer, Circle, Rect, Group, FastLayer } from "react-konva";
 import { useEffect, useState } from "react";
 import { defineGrid, extendHex } from "honeycomb-grid";
 import { getEdgeLines, allEdges, uniqueLines } from "./gridUtils";
@@ -64,30 +64,25 @@ function App() {
       ) : (
         <Stage
           className="Stage"
-          offsetX={-size * 0.6}
-          offsetY={-size * 0.6}
-          width={grid.pointWidth() + size}
-          height={grid.pointHeight() + size}
+          offsetX={-size * 1.2}
+          offsetY={-size * 1.2}
+          width={grid.pointWidth() + size * 1.2}
+          height={grid.pointHeight() + size * 1.2}
         >
           <Layer>
-            <Group
-              offset={{
-                x: -10,
-                y: -10,
-              }}
-            >
-              {gridToArr(grid).map((hex, i) => (
-                <Hex
-                  key={i}
-                  hex={hex}
-                  pos={hex.toPoint()}
-                  hexElevation={hex.elevation}
-                />
-              ))}
-              {gridLines ? <HexLines lines={gridLines} /> : <></>}
-              {edgeLines ? <EdgeLines lines={edgeLines} /> : <></>}
-            </Group>
+            {gridToArr(grid).map((hex, i) => (
+              <Hex
+                key={i}
+                hex={hex}
+                pos={hex.toPoint()}
+                hexElevation={hex.elevation}
+              />
+            ))}
           </Layer>
+          <FastLayer>
+            {gridLines ? <HexLines lines={gridLines} /> : <></>}
+            {edgeLines ? <EdgeLines lines={edgeLines} /> : <></>}
+          </FastLayer>
         </Stage>
       )}
       <div>

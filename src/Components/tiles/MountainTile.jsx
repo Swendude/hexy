@@ -22,6 +22,7 @@ const MountainTile = ({ hex, pos }) => {
       stroke={"#000"}
       opacity={0.4}
       sceneFunc={renderMountain}
+      fill={null}
     />
   );
 };

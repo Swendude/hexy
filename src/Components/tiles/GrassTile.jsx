@@ -1,12 +1,20 @@
 import { Shape } from "react-konva";
+import { useState, useEffect } from "react";
 const GrassTile = ({ hex, pos }) => {
+  const [distanceChoices, setDistanceChoices] = useState(null);
+  const [angleChoices, setAngleChoices] = useState(null);
+  useEffect(() => {
+    const dchoices = [...new Array(8)].map((i) => Math.random());
+    setDistanceChoices(dchoices);
+    setAngleChoices([...new Array(dchoices.length)].map((i) => Math.random()));
+  }, []);
   const renderGrass = (ctx, shp) => {
     const s = hex.size.xRadius;
     ctx.beginPath();
 
-    for (let i = 8; i > 0; i--) {
-      const r = s * 0.8 * Math.sqrt(Math.random());
-      const randAngle = Math.random() * 2 * Math.PI;
+    for (let i = 0; i < distanceChoices.length; i++) {
+      const r = s * 0.8 * Math.sqrt(distanceChoices[i]);
+      const randAngle = angleChoices[i] * 2 * Math.PI;
       const x = r * Math.cos(randAngle);
       const y = r * Math.sin(randAngle);
       ctx.moveTo(x, y);
@@ -14,7 +22,7 @@ const GrassTile = ({ hex, pos }) => {
     }
     ctx.fillStrokeShape(shp);
   };
-  return (
+  return distanceChoices && angleChoices ? (
     <Shape
       x={pos.x}
       y={pos.y}
@@ -23,6 +31,8 @@ const GrassTile = ({ hex, pos }) => {
       opacity={0.2}
       sceneFunc={renderGrass}
     />
+  ) : (
+    <></>
   );
 };
 export default GrassTile;

@@ -20,6 +20,7 @@ const EdgeLines = ({ lines }) => {
       lineCap={"round"}
       stroke={"#1C0B19"}
       sceneFunc={renderLines}
+      listening={false}
     />
   );
 };
