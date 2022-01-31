@@ -68,8 +68,8 @@ const Hex = ({ hex, pos, corners, hexElevation }) => {
     const s = hex.size.xRadius;
     ctx.beginPath();
 
-    for (let i = 10; i > 0; i--) {
-      const r = s * 0.48 * Math.sqrt(Math.random());
+    for (let i = 8; i > 0; i--) {
+      const r = s * 0.8 * Math.sqrt(Math.random());
       const randAngle = Math.random() * 2 * Math.PI;
       const x = r * Math.cos(randAngle);
       const y = r * Math.sin(randAngle);
@@ -128,7 +128,7 @@ const Hex = ({ hex, pos, corners, hexElevation }) => {
           y={pos.y}
           strokeWidth={2}
           stroke={"#000"}
-          opacity={0.1}
+          opacity={0.2}
           sceneFunc={renderWater}
         />
       ) : type === "Grass" ? (
@@ -137,7 +137,7 @@ const Hex = ({ hex, pos, corners, hexElevation }) => {
           y={pos.y}
           strokeWidth={2}
           stroke={"#000"}
-          opacity={0.1}
+          opacity={0.3}
           sceneFunc={renderGrass}
         />
       ) : (
@@ -146,7 +146,7 @@ const Hex = ({ hex, pos, corners, hexElevation }) => {
           y={pos.y}
           strokeWidth={2}
           stroke={"#000"}
-          opacity={0.1}
+          opacity={0.3}
           fill={color}
           sceneFunc={renderMountain}
         />
