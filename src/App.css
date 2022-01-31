@@ -1,13 +1,17 @@
 .App {
-    text-align: center;
+  text-align: center;
+}
+body {
+  background-color: #686868;
+  color: #1c0b19;
 }
 
 h1 {
-    font-size: medium;
+  font-size: medium;
 }
 
 .Stage {
-    width: fit-content;
-    height: fit-content;
-    margin: auto;
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
 }

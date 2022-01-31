@@ -8,24 +8,31 @@ import HexLines from "./Components/HexLines";
 import EdgeLines from "./Components/EdgeLines";
 import { FpsView } from "react-fps";
 import SimplexNoise from "simplex-noise";
+import { mapRange } from "./utils";
 
 function App() {
   const [gridLines, setGridLines] = useState(null);
   const [edgeLines, setEdgeLines] = useState(null);
-  const [noise, setNoise] = useState(new SimplexNoise());
   const [grid, setGrid] = useState(null);
-
+  const size = 22;
   useEffect(() => {
-    const hexf = extendHex({ size: 24, color: 0.1 });
-    const g = defineGrid(hexf);
-    const newGrid = g.rectangle({ width: 20, height: 20 });
-    // const mappedGrid = newGrid.map((hex, i) => hex.set({ color: 0.5 }));
-    // newGrid.set(0, hexf({ color: 0.6 }));
-    newGrid.forEach((hex, i) => {
-      newGrid.set(i, hexf({ color: 0.6 }));
+    const seed = Math.random();
+    const noise = new SimplexNoise();
+    const customHex = extendHex({
+      size: size,
+      origin: [0.5 * Math.sqrt(3) * size, 2 * size * 0.5],
     });
-    console.log(g.isValidHex(newGrid.get(0)));
-    setGrid(newGrid);
+    const g = defineGrid(customHex);
+    const baseGrid = g.rectangle({ width: 22, height: 20 });
+
+    baseGrid.map((hex) =>
+      hex.set({
+        x: hex.x,
+        y: hex.y,
+        elevation: mapRange(noise.noise2D(hex.x / 10, hex.y / 10), -1, 1, 0, 1),
+      })
+    );
+    setGrid(baseGrid);
   }, []);
 
   useEffect(() => {
@@ -33,12 +40,7 @@ function App() {
       let gridEdges = [];
       grid.forEach((hex) => {
         gridEdges = gridEdges.concat(
-          allEdges(
-            hex.corners().map((cor) => ({
-              x: cor.x + hex.toPoint().x,
-              y: cor.y + hex.toPoint().y,
-            }))
-          )
+          allEdges(hex.corners().map((cor) => cor.add(hex.toPoint())))
         );
       });
       const uniques = uniqueLines(gridEdges);
@@ -62,8 +64,10 @@ function App() {
       ) : (
         <Stage
           className="Stage"
-          width={grid.pointWidth() + 20}
-          height={grid.pointHeight() + 20}
+          offsetX={-size * 0.6}
+          offsetY={-size * 0.6}
+          width={grid.pointWidth() + size}
+          height={grid.pointHeight() + size}
         >
           <Layer>
             <Group
@@ -75,9 +79,10 @@ function App() {
               {gridToArr(grid).map((hex, i) => (
                 <Hex
                   key={i}
+                  hex={hex}
                   pos={hex.toPoint()}
                   corners={hex.corners()}
-                  pcolor={hex.color}
+                  hexElevation={hex.elevation}
                 />
               ))}
               {gridLines ? <HexLines lines={gridLines} /> : <></>}

@@ -15,10 +15,10 @@ const EdgeLines = ({ lines }) => {
     <Shape
       x={0}
       y={0}
-      strokeWidth={8}
+      strokeWidth={3}
       lineJoin={"round"}
       lineCap={"round"}
-      stroke={"#000"}
+      stroke={"#1C0B19"}
       sceneFunc={renderLines}
     />
   );

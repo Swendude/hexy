@@ -25,6 +25,7 @@ const HexLines = ({ lines }) => {
       ctx.moveTo(r1.x, r1.y);
       ctx.lineTo(r2.x, r2.y);
     });
+    ctx.closePath();
     ctx.fillStrokeShape(shp);
   };
 
@@ -32,10 +33,11 @@ const HexLines = ({ lines }) => {
     <Shape
       x={0}
       y={0}
-      strokeWidth={1}
+      strokeWidth={2}
       lineJoin={"round"}
       lineCap={"butt"}
-      stroke={"#000"}
+      stroke={"#1C0B19"}
+      opacity={0.2}
       sceneFunc={renderLines}
     />
   );
