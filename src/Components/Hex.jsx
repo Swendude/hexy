@@ -1,14 +1,18 @@
 import { Shape, Circle, Text } from "react-konva";
 import { memo, useState, useEffect } from "react";
-import { extendHex } from "honeycomb-grid";
+import WaterTile from "./tiles/WaterTile";
+import GrassTile from "./tiles/GrassTile";
+import MountainTile from "./tiles/MountainTile";
 
-const Hex = ({ hex, pos, corners, hexElevation }) => {
+const Hex = ({ hex, pos, hexElevation }) => {
   const [elevation, setElevation] = useState(null);
   const [color, setColor] = useState(null);
   const [type, setType] = useState(null);
 
+  const typeOptions = ["Water", "Grass", "Mountain"];
+
   const renderHex = (ctx, shp) => {
-    const [firstCor, ...others] = corners;
+    const [firstCor, ...others] = hex.corners;
     ctx.beginPath();
     ctx.moveTo(firstCor.x, firstCor.y);
     others.forEach(({ x, y }, i) => {
@@ -26,73 +30,6 @@ const Hex = ({ hex, pos, corners, hexElevation }) => {
     determineColor(hexElevation);
   }, [elevation]);
 
-  const renderCross = (ctx, shp) => {
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(5, 5);
-    ctx.moveTo(0, 0);
-    ctx.lineTo(-5, -5);
-    ctx.moveTo(0, 0);
-    ctx.lineTo(5, -5);
-    ctx.moveTo(0, 0);
-    ctx.lineTo(-5, 5);
-    ctx.closePath();
-    ctx.fillStrokeShape(shp);
-  };
-
-  const renderWater = (ctx, shp) => {
-    const s = hex.size.xRadius;
-    const wave = (r, x, y, _ctx) => {
-      ctx.moveTo(x, y);
-      ctx.arc(-s * r + x, y, s * r, 0, Math.PI);
-      ctx.moveTo(x, y);
-      ctx.arc(s * r + x, y, s * r, Math.PI, 0, true);
-    };
-
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    // ctx.lineTo(-0.5 * s, 0);
-    wave(0.1, -4, -5, ctx);
-    ctx.moveTo(0, 0);
-    wave(0.1, s * -0.5, s * 0.3, ctx);
-    ctx.moveTo(0, 0);
-    wave(0.1, s * 0.5, s * 0.2, ctx);
-    ctx.moveTo(0, 0);
-    // ctx.moveTo(0, 0);
-
-    // ctx.closePath();
-    ctx.fillStrokeShape(shp);
-  };
-
-  const renderGrass = (ctx, shp) => {
-    const s = hex.size.xRadius;
-    ctx.beginPath();
-
-    for (let i = 8; i > 0; i--) {
-      const r = s * 0.8 * Math.sqrt(Math.random());
-      const randAngle = Math.random() * 2 * Math.PI;
-      const x = r * Math.cos(randAngle);
-      const y = r * Math.sin(randAngle);
-      ctx.moveTo(x, y);
-      ctx.lineTo(x, y + Math.ceil(s * 0.01));
-    }
-    ctx.fillStrokeShape(shp);
-  };
-  const renderMountain = (ctx, shp) => {
-    const s = hex.size.xRadius;
-    ctx.beginPath();
-
-    const w = s * 1.2;
-    const h = s * 0.8;
-    const x = 0;
-    const y = 6;
-    ctx.moveTo(x - 0.5 * w, y);
-    ctx.lineTo(x, y - h);
-    ctx.lineTo(x + 0.5 * w, y);
-
-    ctx.fillStrokeShape(shp);
-  };
-
   const determineColor = (elevation) => {
     if (elevation < 0.25) {
       setColor("#BFDBF7");
@@ -102,57 +39,27 @@ const Hex = ({ hex, pos, corners, hexElevation }) => {
       setType("Grass");
     } else {
       setColor("#C46D5E");
-      setType("None");
+      setType("Mountain");
     }
   };
 
   return (
     <>
-      {/* {render ? (
-        
-      ) : (
-        <></>
-      )} */}
       <Shape
         x={pos.x}
         y={pos.y}
-        // opacity={elevation}
         stroke={color}
         strokeWidth={2}
         fill={color}
         sceneFunc={renderHex}
       />
       {type === "Water" ? (
-        <Shape
-          x={pos.x}
-          y={pos.y}
-          strokeWidth={2}
-          stroke={"#000"}
-          opacity={0.2}
-          sceneFunc={renderWater}
-        />
+        <WaterTile pos={pos} hex={hex} />
       ) : type === "Grass" ? (
-        <Shape
-          x={pos.x}
-          y={pos.y}
-          strokeWidth={2}
-          stroke={"#000"}
-          opacity={0.3}
-          sceneFunc={renderGrass}
-        />
+        <GrassTile pos={pos} hex={hex} />
       ) : (
-        <Shape
-          x={pos.x}
-          y={pos.y}
-          strokeWidth={2}
-          stroke={"#000"}
-          opacity={0.3}
-          fill={color}
-          sceneFunc={renderMountain}
-        />
+        <MountainTile pos={pos} hex={hex} />
       )}
-
-      {/* <Text text={hex} x={pos.x} y={pos.y} /> */}
     </>
   );
 };

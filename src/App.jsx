@@ -81,7 +81,6 @@ function App() {
                   key={i}
                   hex={hex}
                   pos={hex.toPoint()}
-                  corners={hex.corners()}
                   hexElevation={hex.elevation}
                 />
               ))}
