@@ -7,11 +7,9 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "honeycomb-grid": "^3.1.8",
-    "konva": "^8.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-fps": "^1.0.6",
-    "react-konva": "^17.0.2-5",
     "react-scripts": "5.0.0",
     "simplex-noise": "^3.0.1",
     "web-vitals": "^2.1.4"

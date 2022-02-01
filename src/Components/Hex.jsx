@@ -1,16 +1,15 @@
-import { Shape, Circle, Text } from "react-konva";
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { mapRange } from "../utils";
 import WaterTile from "./tiles/WaterTile";
 import GrassTile from "./tiles/GrassTile";
 import MountainTile from "./tiles/MountainTile";
 import CrossTile from "./tiles/CrossTile";
-import TouchTile from "./tiles/TouchTile";
 
-const Hex = ({ hex, pos, hexElevation }) => {
+const Hex = ({ hex, hexElevation }) => {
   const [elevation, setElevation] = useState(null);
   const [color, setColor] = useState(null);
   const [type, setType] = useState(null);
+  const [hover, setHover] = useState(false);
 
   const typeOptions = [
     { renderType: "Water", begin: 0, end: 0.25, color: "#BFDBF7" },
@@ -18,16 +17,13 @@ const Hex = ({ hex, pos, hexElevation }) => {
     { renderType: "Mountain", begin: 0.7, end: 1, color: "#C46D5E" },
   ];
 
-  const renderHex = (ctx, shp) => {
-    // console.log("rerender");
-    const [firstCor, ...others] = hex.corners();
-    ctx.beginPath();
-    ctx.moveTo(firstCor.x, firstCor.y);
+  const hexPath = (corners) => {
+    const [first, ...others] = corners;
+    let pathStr = `M${first.x}, ${first.y} `;
     others.forEach(({ x, y }, i) => {
-      ctx.lineTo(x, y);
+      pathStr += `L${x}, ${y} `;
     });
-    ctx.closePath();
-    ctx.fillStrokeShape(shp);
+    return pathStr;
   };
 
   useEffect(() => {
@@ -52,27 +48,32 @@ const Hex = ({ hex, pos, hexElevation }) => {
     setElevation(mapRange(Math.random(), 0, 1, next.begin, next.end));
   };
   return !(type == null) && !(color == null) ? (
-    <>
-      <Shape
-        x={pos.x}
-        y={pos.y}
+    <g>
+      <path
+        d={hexPath(hex.corners().map((cor) => cor.add(hex.toPoint())))}
         stroke={color}
         strokeWidth={2}
         fill={color}
-        sceneFunc={renderHex}
-        listening={false}
       />
       {typeOptions[type].renderType === "Water" ? (
-        <WaterTile pos={pos} hex={hex} listening={false} />
+        <WaterTile hex={hex} />
       ) : typeOptions[type].renderType === "Grass" ? (
-        <GrassTile pos={pos} hex={hex} listening={false} />
+        <GrassTile hex={hex} />
       ) : typeOptions[type].renderType === "Mountain" ? (
-        <MountainTile pos={pos} hex={hex} listening={false} />
+        <MountainTile hex={hex} />
       ) : (
-        <CrossTile pos={pos} hex={hex} listening={false} />
+        <CrossTile hex={hex} />
       )}
-      <TouchTile pos={pos} renderFunc={renderHex} cycleFunc={cycleType} />
-    </>
+      <path
+        d={hexPath(hex.corners().map((cor) => cor.add(hex.toPoint())))}
+        opacity={hover ? 0.1 : 0}
+        fill={"#000"}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onTouchEnd={() => cycleType()}
+        onMouseUp={() => cycleType()}
+      />
+    </g>
   ) : (
     <></>
   );

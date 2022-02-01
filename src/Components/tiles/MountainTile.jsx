@@ -1,28 +1,24 @@
-import { Shape } from "react-konva";
-const MountainTile = ({ hex, pos }) => {
-  const renderMountain = (ctx, shp) => {
+const MountainTile = ({ hex }) => {
+  const renderMountain = (hex) => {
     const s = hex.size.xRadius;
-    ctx.beginPath();
-
-    const w = s * 1.2;
+    const w = s * 1.1;
     const h = s * 0.8;
-    const x = 0;
-    const y = 6;
-    ctx.moveTo(x - 0.5 * w, y);
-    ctx.lineTo(x, y - h);
-    ctx.lineTo(x + 0.5 * w, y);
-
-    ctx.fillStrokeShape(shp);
+    let pathStr = `M${hex.toPoint().x},${hex.toPoint().y + 6} 
+                    m${0.5 * w},${0}
+                    l${-0.5 * w},${-h}
+                    l${-0.5 * w},${h}
+                    `;
+    return pathStr;
   };
+
   return (
-    <Shape
-      x={pos.x}
-      y={pos.y}
+    <path
+      d={renderMountain(hex)}
       strokeWidth={2}
       stroke={"#000"}
       opacity={0.4}
-      sceneFunc={renderMountain}
-      fill={null}
+      fill={"none"}
+      strokeLinecap="round"
     />
   );
 };

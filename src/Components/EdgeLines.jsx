@@ -1,9 +1,10 @@
 const EdgeLines = ({ lines }) => {
   return (
     <g>
-      {lines.map((line) => {
+      {lines.map((line, i) => {
         return (
           <line
+            key={i}
             x1={line[0].x}
             y1={line[0].y}
             x2={line[1].x}

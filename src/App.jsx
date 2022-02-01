@@ -12,10 +12,10 @@ import { mapRange } from "./utils";
 function App() {
   const [gridLines, setGridLines] = useState(null);
   const [edgeLines, setEdgeLines] = useState(null);
+  const [hexD, setHexD] = useState({ w: 0, h: 0 });
   const [grid, setGrid] = useState(null);
   const size = 22;
   useEffect(() => {
-    const seed = Math.random();
     const noise = new SimplexNoise();
     const customHex = extendHex({
       size: size,
@@ -24,18 +24,19 @@ function App() {
     const g = defineGrid(customHex);
     const baseGrid = g.rectangle({ width: 22, height: 20 });
 
-    baseGrid.map((hex) =>
+    baseGrid.map((hex) => {
       hex.set({
         x: hex.x,
         y: hex.y,
         elevation: mapRange(noise.noise2D(hex.x / 10, hex.y / 10), -1, 1, 0, 1),
-      })
-    );
+      });
+    });
     setGrid(baseGrid);
   }, []);
 
   useEffect(() => {
     if (grid) {
+      setHexD({ w: grid.get(0).width(), h: grid.get(0).height() });
       let gridEdges = [];
       grid.forEach((hex) => {
         gridEdges = gridEdges.concat(
@@ -48,6 +49,7 @@ function App() {
       setEdgeLines(edges);
     }
   }, [grid]);
+
   // Turns the grid object into an array object, usefull for mapping
   const gridToArr = (grid) => {
     const hexxes = [];
@@ -63,20 +65,17 @@ function App() {
       ) : (
         <svg
           className="Stage"
-          viewBox={`${-size * 1.2} ${-size * 1.2} ${grid.pointWidth() + size * 1.2} ${grid.pointHeight() + size * 1.2}`}
-          width={grid.pointWidth() + size * 1.2}
-          height={grid.pointHeight() + size * 1.2}
+          viewBox={`${-hexD.w} ${-hexD.h} ${grid.pointWidth() + hexD.w} ${
+            grid.pointHeight() + hexD.h
+          }`}
+          width={grid.pointWidth() + hexD.w * 2}
+          height={grid.pointHeight() + hexD.h * 2}
         >
-          {/* <Layer>
+          <g>
             {gridToArr(grid).map((hex, i) => (
-              <Hex
-                key={i}
-                hex={hex}
-                pos={hex.toPoint()}
-                hexElevation={hex.elevation}
-              />
+              <Hex key={i} hex={hex} hexElevation={hex.elevation} />
             ))}
-          </Layer> */}
+          </g>
           <g>
             {gridLines ? <HexLines lines={gridLines} /> : <></>}
             {edgeLines ? <EdgeLines lines={edgeLines} /> : <></>}
