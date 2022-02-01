@@ -1,18 +1,19 @@
-import { Shape } from "react-konva";
-import { subDiv, generateRands } from "../gridUtils";
+import { subDiv, generateRands as generateLineRands } from "../gridUtils";
 import { useState } from "react";
 const HexLines = ({ lines }) => {
-  const [rands, setRands] = useState(lines.map(() => generateRands()));
+  const [rands, setRands] = useState(lines.map(() => generateLineRands()));
 
-  const renderLines = (ctx, shp) => {
-    ctx.beginPath();
+  const generatePath = (lines) => {
+    let pathstr = "";
     lines.forEach((line, i) => {
-      ctx.moveTo(line[0].x, line[0].y);
+      pathstr += `M${line[0].x}, ${line[0].y} `;
+
       const fwd = subDiv(line[0], line[1], 0.28);
-      ctx.lineTo(fwd.x, fwd.y);
-      ctx.moveTo(line[1].x, line[1].y);
+      pathstr += `L${fwd.x}, ${fwd.y} `;
+      pathstr += `M${line[1].x}, ${line[1].y} `;
+
       const bwd = subDiv(line[1], line[0], 0.28);
-      ctx.lineTo(bwd.x, bwd.y);
+      pathstr += `L${bwd.x}, ${bwd.y} `;
       // pick two random points between gap
       let r1, r2;
       if (rands[i].winner === 0) {
@@ -22,26 +23,19 @@ const HexLines = ({ lines }) => {
         r1 = subDiv(bwd, fwd, rands[i].start);
         r2 = subDiv(bwd, fwd, rands[i].end);
       }
-      ctx.moveTo(r1.x, r1.y);
-      ctx.lineTo(r2.x, r2.y);
+      pathstr += `M${r1.x}, ${r1.y} `;
+      pathstr += `L${r2.x}, ${r2.y} `;
     });
-    ctx.closePath();
-    ctx.fillStrokeShape(shp);
+    return pathstr;
   };
 
-  return (
-    <Shape
-      x={0}
-      y={0}
-      strokeWidth={1}
-      lineJoin={"round"}
-      lineCap={"butt"}
-      stroke={"#1C0B19"}
-      opacity={0.6}
-      sceneFunc={renderLines}
-      listening={false}
-    />
-  );
+  return <path
+    d={generatePath(lines)}
+    stroke={"#1C0B19"}
+    strokeWidth={1}
+    opacity={0.6}
+    strokeLinecap="butt"
+  />;
 };
 
 export default HexLines;

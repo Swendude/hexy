@@ -1,27 +1,22 @@
-import { Shape } from "react-konva";
-import { subDiv, generateRands } from "../gridUtils";
-import { useState } from "react";
 const EdgeLines = ({ lines }) => {
-  const renderLines = (ctx, shp) => {
-    ctx.beginPath();
-    lines.forEach((line) => {
-      ctx.moveTo(line[0].x, line[0].y);
-      ctx.lineTo(line[1].x, line[1].y);
-    });
-    ctx.fillStrokeShape(shp);
-  };
-
   return (
-    <Shape
-      x={0}
-      y={0}
-      strokeWidth={3}
-      lineJoin={"round"}
-      lineCap={"round"}
-      stroke={"#1C0B19"}
-      sceneFunc={renderLines}
-      listening={false}
-    />
+    <g>
+      {lines.map((line) => {
+        return (
+          <line
+            x1={line[0].x}
+            y1={line[0].y}
+            x2={line[1].x}
+            y2={line[1].y}
+            stroke={"#1C0B19"}
+            strokeWidth={4}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        );
+      })}
+      ;
+    </g>
   );
 };
 

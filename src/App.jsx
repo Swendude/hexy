@@ -1,5 +1,4 @@
 import "./App.css";
-import { Stage, Layer, Circle, Rect, Group, FastLayer } from "react-konva";
 import { useEffect, useState } from "react";
 import { defineGrid, extendHex } from "honeycomb-grid";
 import { getEdgeLines, allEdges, uniqueLines } from "./gridUtils";
@@ -62,14 +61,13 @@ function App() {
       {!grid ? (
         <p>Loading</p>
       ) : (
-        <Stage
+        <svg
           className="Stage"
-          offsetX={-size * 1.2}
-          offsetY={-size * 1.2}
+          viewBox={`${-size * 1.2} ${-size * 1.2} ${grid.pointWidth() + size * 1.2} ${grid.pointHeight() + size * 1.2}`}
           width={grid.pointWidth() + size * 1.2}
           height={grid.pointHeight() + size * 1.2}
         >
-          <Layer>
+          {/* <Layer>
             {gridToArr(grid).map((hex, i) => (
               <Hex
                 key={i}
@@ -78,12 +76,12 @@ function App() {
                 hexElevation={hex.elevation}
               />
             ))}
-          </Layer>
-          <FastLayer>
+          </Layer> */}
+          <g>
             {gridLines ? <HexLines lines={gridLines} /> : <></>}
             {edgeLines ? <EdgeLines lines={edgeLines} /> : <></>}
-          </FastLayer>
-        </Stage>
+          </g>
+        </svg>
       )}
       <div>
         <FpsView />
