@@ -12,6 +12,7 @@ const Hex = ({ hex, hexElevation, hexTemp, hexD }) => {
   const [type, setType] = useState(null);
   const [temp, setTemp] = useState(null);
   const [hover, setHover] = useState(false);
+  const [delayHandler, setDelayHandler] = useState(null);
 
   const typeOptions = [
     {
@@ -51,11 +52,10 @@ const Hex = ({ hex, hexElevation, hexTemp, hexD }) => {
   };
 
   useEffect(() => {
-    console.log(hexTemp);
     setElevation(hexElevation);
     setTemp(hexTemp);
     setHexPathStr(hexPath(hex.corners().map((cor) => cor.add(hex.toPoint()))));
-  }, []);
+  }, [hex, hexD])
 
   useEffect(() => {
     determineRender(elevation, temp);
@@ -68,20 +68,14 @@ const Hex = ({ hex, hexElevation, hexTemp, hexD }) => {
         setType(parseInt(opt_i));
         for (const t_opt_i in typeOptions[opt_i].temp_options) {
           const t_opt = typeOptions[opt_i].temp_options[t_opt_i];
-          console.log(temp > 0.2 && temp <= 0.9);
           if (temp > t_opt.begin && temp <= t_opt.end) {
             setColor(t_opt.color);
-            // setTemp(parseInt(t_opt_i));
           }
         }
       }
     }
   };
 
-  const cycleType = () => {
-    const next = typeOptions[(type + 1) % typeOptions.length];
-    setElevation(mapRange(Math.random(), 0, 1, next.begin, next.end));
-  };
 
   return !(type == null) && !(color == null) ? (
     <g>
@@ -97,23 +91,12 @@ const Hex = ({ hex, hexElevation, hexTemp, hexD }) => {
         <CrossTile hex={hex} hexD={hexD} />
       )}
 
-      {/* <circle
-      cx ={hex.toPoint().x}
-      cy ={hex.toPoint().y}
-      r={hexD.w/2}
-      stroke="#000"
-      fill="none"
-      opacity={0.2}
-      strokeWidth={0.5}
-      /> */}
       <path
         d={hexPathStr}
         opacity={hover ? 0.1 : 0}
         fill={"#000"}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onTouchEnd={() => cycleType()}
-        onMouseUp={() => cycleType()}
+        onMouseEnter={() => !hover && setHover(true)}
+        onMouseLeave={() => hover && setHover(false)}
       />
     </g>
   ) : (

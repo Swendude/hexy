@@ -10,8 +10,9 @@ import SimplexNoise from "simplex-noise";
 import { mapRange } from "./utils";
 import NoiseGrid from "./Components/NoiseGrid";
 
+
+
 function App() {
-  const [hover, setHover] = useState(false);
   const [gridLines, setGridLines] = useState(null);
   const [edgeLines, setEdgeLines] = useState(null);
   const [hexD, setHexD] = useState({ w: 0, h: 0 });
@@ -19,8 +20,10 @@ function App() {
   const [elevationGrid, setElevationGrid] = useState(null);
   const [tempGrid, setTempGrid] = useState(null);
 
-  const size = 22;
+  const size = 20;
+
   useEffect(() => {
+    console.log('app rerender')
     const elevationNoise = new SimplexNoise();
     const tempNoise = new SimplexNoise();
 
@@ -31,7 +34,7 @@ function App() {
 
     const g = defineGrid(customHex);
 
-    const baseGrid = g.rectangle({ width: 22, height: 20 });
+    const baseGrid = g.rectangle({ width: 32, height: 26 });
     let elevation_vals = [];
     let temp_vals = [];
 
@@ -123,6 +126,7 @@ function App() {
           </svg>
         </div>
       )}
+
       {elevationGrid && tempGrid ? (
         <div>
           <span>Elevation</span>
