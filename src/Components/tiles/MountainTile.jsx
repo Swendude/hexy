@@ -1,8 +1,8 @@
-const MountainTile = ({ hex }) => {
+const MountainTile = ({ hex, hexD }) => {
   const renderMountain = (hex) => {
-    const s = hex.size.xRadius;
-    const w = s * 1.1;
-    const h = s * 0.8;
+    const s = hexD.w;
+    const w = s * 0.7;
+    const h = s * 0.5;
     let pathStr = `M${hex.toPoint().x},${hex.toPoint().y + 6} 
                     m${0.5 * w},${0}
                     l${-0.5 * w},${-h}

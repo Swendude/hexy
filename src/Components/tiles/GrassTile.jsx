@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-const GrassTile = ({ hex }) => {
+const GrassTile = ({ hex, hexD }) => {
   const [points, setPoints] = useState(null);
-  const hexD = { w: hex.width(), h: hex.height() };
   useEffect(() => {
     const dchoices = [...new Array(8)].map((i) => Math.random());
     const achoices = [...new Array(dchoices.length)].map((i) => Math.random());

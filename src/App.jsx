@@ -10,6 +10,7 @@ import SimplexNoise from "simplex-noise";
 import { mapRange } from "./utils";
 
 function App() {
+  const [hover, setHover]= useState(false);
   const [gridLines, setGridLines] = useState(null);
   const [edgeLines, setEdgeLines] = useState(null);
   const [hexD, setHexD] = useState({ w: 0, h: 0 });
@@ -25,7 +26,7 @@ function App() {
     const baseGrid = g.rectangle({ width: 22, height: 20 });
 
     baseGrid.map((hex) => {
-      hex.set({
+      return hex.set({
         x: hex.x,
         y: hex.y,
         elevation: mapRange(noise.noise2D(hex.x / 10, hex.y / 10), -1, 1, 0, 1),
@@ -36,6 +37,7 @@ function App() {
 
   useEffect(() => {
     if (grid) {
+      
       setHexD({ w: grid.get(0).width(), h: grid.get(0).height() });
       let gridEdges = [];
       grid.forEach((hex) => {
@@ -57,6 +59,7 @@ function App() {
     return hexxes;
   };
 
+
   return (
     <div className="App">
       <h1>Hexheim</h1>
@@ -73,7 +76,7 @@ function App() {
         >
           <g>
             {gridToArr(grid).map((hex, i) => (
-              <Hex key={i} hex={hex} hexElevation={hex.elevation} />
+              <Hex key={i} hex={hex} hexD={hexD} hexElevation={hex.elevation}/>
             ))}
           </g>
           <g>
