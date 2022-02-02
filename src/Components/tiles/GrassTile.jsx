@@ -24,8 +24,8 @@ const GrassTile = ({ hex, hexD }) => {
             key={i}
             x={p.x + hex.toPoint().x}
             y={p.y + hex.toPoint().y}
-            width={2}
-            height={1}
+            width={hexD.w/ 20}
+            height={hexD.w / 50}
             fill={"#000"}
             opacity={0.2}
           />

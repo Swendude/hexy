@@ -1,4 +1,4 @@
-const CrossTile = ({ hex }) => {
+const CrossTile = ({ hex, hexD }) => {
   const renderCross = (hex) => {
     const hexPos = hex.toPoint();
     let pathStr = `M${hexPos.x},${hexPos.y} l5,5 
@@ -8,7 +8,7 @@ const CrossTile = ({ hex }) => {
     return pathStr;
   };
   return (
-    <path d={renderCross(hex)} strokeWidth={2} stroke={"#000"} opacity={0.2} />
+    <path d={renderCross(hex)} strokeWidth={hexD.w/20} stroke={"#000"} opacity={0.2} />
   );
 };
 export default CrossTile;

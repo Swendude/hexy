@@ -8,36 +8,66 @@ import EdgeLines from "./Components/EdgeLines";
 import { FpsView } from "react-fps";
 import SimplexNoise from "simplex-noise";
 import { mapRange } from "./utils";
+import NoiseGrid from "./Components/NoiseGrid";
 
 function App() {
-  const [hover, setHover]= useState(false);
+  const [hover, setHover] = useState(false);
   const [gridLines, setGridLines] = useState(null);
   const [edgeLines, setEdgeLines] = useState(null);
   const [hexD, setHexD] = useState({ w: 0, h: 0 });
   const [grid, setGrid] = useState(null);
+  const [elevationGrid, setElevationGrid] = useState(null);
+  const [tempGrid, setTempGrid] = useState(null);
+
   const size = 22;
   useEffect(() => {
-    const noise = new SimplexNoise();
+    const elevationNoise = new SimplexNoise();
+    const tempNoise = new SimplexNoise();
+
     const customHex = extendHex({
       size: size,
       origin: [0.5 * Math.sqrt(3) * size, 2 * size * 0.5],
     });
+
     const g = defineGrid(customHex);
+
     const baseGrid = g.rectangle({ width: 22, height: 20 });
+    let elevation_vals = [];
+    let temp_vals = [];
 
     baseGrid.map((hex) => {
+      const el_val = mapRange(
+        elevationNoise.noise2D(hex.x / 10, hex.y / 10),
+        -1,
+        1,
+        0,
+        1
+      );
+      const t_val = mapRange(
+        tempNoise.noise2D(hex.x / 50, hex.y / 50),
+        -1,
+        1,
+        0,
+        1
+      );
+
+      elevation_vals.push(el_val);
+      temp_vals.push(t_val);
+
       return hex.set({
         x: hex.x,
         y: hex.y,
-        elevation: mapRange(noise.noise2D(hex.x / 10, hex.y / 10), -1, 1, 0, 1),
+        elevation: el_val,
+        temperature: t_val,
       });
     });
+    setTempGrid(temp_vals);
+    setElevationGrid(elevation_vals);
     setGrid(baseGrid);
   }, []);
 
   useEffect(() => {
     if (grid) {
-      
       setHexD({ w: grid.get(0).width(), h: grid.get(0).height() });
       let gridEdges = [];
       grid.forEach((hex) => {
@@ -59,32 +89,51 @@ function App() {
     return hexxes;
   };
 
-
   return (
     <div className="App">
       <h1>Hexheim</h1>
+
       {!grid ? (
         <p>Loading</p>
       ) : (
-        <svg
-          className="Stage"
-          viewBox={`${-hexD.w} ${-hexD.h} ${grid.pointWidth() + hexD.w} ${
-            grid.pointHeight() + hexD.h
-          }`}
-          width={grid.pointWidth() + hexD.w * 2}
-          height={grid.pointHeight() + hexD.h * 2}
-        >
-          <g>
-            {gridToArr(grid).map((hex, i) => (
-              <Hex key={i} hex={hex} hexD={hexD} hexElevation={hex.elevation}/>
-            ))}
-          </g>
-          <g>
-            {gridLines ? <HexLines lines={gridLines} /> : <></>}
-            {edgeLines ? <EdgeLines lines={edgeLines} /> : <></>}
-          </g>
-        </svg>
+        <div>
+          <svg
+            className="Stage"
+            viewBox={`${-hexD.w} ${-hexD.h} ${grid.pointWidth() + hexD.w} ${
+              grid.pointHeight() + hexD.h
+            }`}
+            width={grid.pointWidth() + hexD.w * 2}
+            height={grid.pointHeight() + hexD.h * 2}
+          >
+            <g>
+              {gridToArr(grid).map((hex, i) => (
+                <Hex
+                  key={i}
+                  hex={hex}
+                  hexD={hexD}
+                  hexElevation={hex.elevation}
+                  hexTemp={hex.temperature}
+                />
+              ))}
+            </g>
+            <g>
+              {gridLines ? <HexLines lines={gridLines} /> : <></>}
+              {edgeLines ? <EdgeLines lines={edgeLines} /> : <></>}
+            </g>
+          </svg>
+        </div>
       )}
+      {elevationGrid && tempGrid ? (
+        <div>
+          <span>Elevation</span>
+          <NoiseGrid grid={elevationGrid} w={grid.width} h={grid.height} />
+          <span>Temp</span>
+          <NoiseGrid grid={tempGrid} w={grid.width} h={grid.height} />
+        </div>
+      ) : (
+        <></>
+      )}
+
       <div>
         <FpsView />
       </div>
