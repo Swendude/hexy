@@ -4,6 +4,8 @@ import GrassTile from "./tiles/GrassTile";
 import MountainTile from "./tiles/MountainTile";
 import CrossTile from "./tiles/CrossTile";
 import { typeOptions } from "../utils";
+import { useDispatch } from "react-redux";
+import { select } from "../features/hexmap/hexmapSlice";
 
 const Hex = ({ hex, hexElevation, hexTemp, hexD }) => {
   const [elevation, setElevation] = useState(null);
@@ -11,6 +13,7 @@ const Hex = ({ hex, hexElevation, hexTemp, hexD }) => {
   const [color, setColor] = useState(null);
   const [type, setType] = useState(null);
   const [temp, setTemp] = useState(null);
+  const dispatch = useDispatch();
 
   const hexPath = (corners) => {
     const [first, ...others] = corners;
@@ -48,7 +51,11 @@ const Hex = ({ hex, hexElevation, hexTemp, hexD }) => {
 
   return !(type == null) && !(color == null) ? (
     <g>
-      <path d={hexPathStr} fill={color} />
+      <path
+        d={hexPathStr}
+        fill={color}
+        onMouseEnter={() => dispatch(select({ ...hex }))}
+      />
 
       {typeOptions[type].renderType === "Water" ? (
         <WaterTile hex={hex} hexD={hexD} />

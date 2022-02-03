@@ -9,6 +9,10 @@ import { FpsView } from "react-fps";
 import SimplexNoise from "simplex-noise";
 import { mapRange } from "./utils";
 import NoiseGrid from "./components/NoiseGrid";
+import HexInspector from "./components/HexInspector";
+import { useDispatch } from "react-redux";
+import { select } from "./features/hexmap/hexmapSlice";
+import HoverMarker from "./components/hoverMarker";
 
 function App() {
   const [gridLines, setGridLines] = useState(null);
@@ -17,6 +21,7 @@ function App() {
   const [grid, setGrid] = useState(null);
   const [elevationGrid, setElevationGrid] = useState(null);
   const [tempGrid, setTempGrid] = useState(null);
+  const dispatch = useDispatch();
 
   const size = 20;
 
@@ -93,19 +98,19 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Hexheim</h1>
-
       {!grid ? (
         <p>Loading</p>
       ) : (
-        <div>
+        <div className="map-wrapper">
+          <HexInspector />
           <svg
             className="Stage"
-            viewBox={`${-hexD.w} ${-hexD.h} ${grid.pointWidth() + hexD.w} ${
-              grid.pointHeight() + hexD.h
-            }`}
+            viewBox={`${-0.55 * hexD.w} ${-0.2 * hexD.h} ${
+              grid.pointWidth() + hexD.w * 0.1
+            } ${grid.pointHeight() + hexD.h * 0.1}`}
             width={grid.pointWidth() + hexD.w * 2}
             height={grid.pointHeight() + hexD.h * 2}
+            onMouseLeave={() => dispatch(select(null))}
           >
             <g>
               {gridToArr(grid).map((hex, i) => (
@@ -121,17 +126,21 @@ function App() {
             <g>
               {gridLines ? <HexLines lines={gridLines} /> : <></>}
               {edgeLines ? <EdgeLines lines={edgeLines} /> : <></>}
+              {/* <HoverMarker hexGrid={grid} /> */}
             </g>
           </svg>
         </div>
       )}
-
       {elevationGrid && tempGrid ? (
-        <div>
-          <span>Elevation</span>
-          <NoiseGrid grid={elevationGrid} w={grid.width} h={grid.height} />
-          <span>Temp</span>
-          <NoiseGrid grid={tempGrid} w={grid.width} h={grid.height} />
+        <div className="noise-grids">
+          <div>
+            <p>Elevation</p>
+            <NoiseGrid grid={elevationGrid} w={grid.width} h={grid.height} />
+          </div>
+          <div>
+            <p>Temp</p>
+            <NoiseGrid grid={tempGrid} w={grid.width} h={grid.height} />
+          </div>
         </div>
       ) : (
         <></>

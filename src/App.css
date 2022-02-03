@@ -1,25 +1,35 @@
 .App {
-    text-align: center;
+  margin-top: 0.5em;
 }
 
 body {
-    background-color: #686868;
-    color: #1c0b19;
+  background-color: #686868;
+  color: #1c0b19;
 }
 
 h1 {
-    font-size: medium;
+  font-size: medium;
 }
 
-.Stage {
-    width: fit-content;
-    height: fit-content;
-    margin: auto;
+.map-wrapper {
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
 }
 
-.hex-inspect {
-    text-align: center;
-    width: fit-content;
-    height: fit-content;
-    margin: auto;
+.noise-grids {
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+  display: flex;
+  gap: 0.2em;
+}
+
+.noise-grids p {
+  font-size: 1em;
+  margin-bottom: 0.2em;
+}
+
+.hex-inspect span {
+  padding-right: 1em;
 }
