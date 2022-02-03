@@ -1,4 +1,5 @@
 const EdgeLines = ({ lines }) => {
+  console.log("rerender edges");
   return (
     <g>
       {lines.map((line, i) => {

@@ -1,10 +1,12 @@
+import { useCallback } from "react";
+
 const WaterTile = ({ hex, hexD }) => {
-  const renderWave = (hex, offsetX, offsetY, w, h) => {
+  const renderWave = useCallback((hex, offsetX, offsetY, w, h) => {
     const hexPos = hex.toPoint().add({ x: offsetX, y: offsetY });
     return `M${hexPos.x},${hexPos.y} q ${w / 4} ${h} ${w / 2} 0 M${hexPos.x},${
       hexPos.y
     } q ${-w / 4} ${-h} ${-w / 2} 0`;
-  };
+  }, []);
   return (
     <g>
       <path

@@ -45,19 +45,19 @@ const generateRands = () => ({
 
 const getEdgeLines = (grid, w, h) => {
   const lefts = grid.filter(
-    (hex) => hex.coordinates().x == 0 && hex.coordinates().y % 2 === 0
+    (hex) => hex.coordinates().x === 0 && hex.coordinates().y % 2 === 0
   );
   const rights = grid.filter(
-    (hex) => hex.coordinates().x == w - 1 && hex.coordinates().y % 2 !== 0
+    (hex) => hex.coordinates().x === w - 1 && hex.coordinates().y % 2 !== 0
   );
   const rights_inners = grid.filter(
-    (hex) => hex.coordinates().x == w - 1 && hex.coordinates().y % 2 === 0
+    (hex) => hex.coordinates().x === w - 1 && hex.coordinates().y % 2 === 0
   );
   const lefts_inners = grid.filter(
-    (hex) => hex.coordinates().x == 0 && hex.coordinates().y % 2 !== 0
+    (hex) => hex.coordinates().x === 0 && hex.coordinates().y % 2 !== 0
   );
-  const tops = grid.filter((hex) => hex.coordinates().y == 0);
-  const bottoms = grid.filter((hex) => hex.coordinates().y == h - 1);
+  const tops = grid.filter((hex) => hex.coordinates().y === 0);
+  const bottoms = grid.filter((hex) => hex.coordinates().y === h - 1);
 
   const corns = (hs) =>
     hs.map((h) =>
