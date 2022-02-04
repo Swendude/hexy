@@ -7,7 +7,7 @@ import { typeOptions } from "../utils";
 import { useDispatch } from "react-redux";
 import { select } from "../features/hexmap/hexmapSlice";
 
-const Hex = ({ hex, hexElevation, hexTemp, hexD }) => {
+const Hex = ({ hex_i, hex, hexElevation, hexTemp, hexD }) => {
   const [elevation, setElevation] = useState(null);
   const [hexPathStr, setHexPathStr] = useState(null);
   const [color, setColor] = useState(null);
@@ -51,11 +51,7 @@ const Hex = ({ hex, hexElevation, hexTemp, hexD }) => {
 
   return !(type == null) && !(color == null) ? (
     <g>
-      <path
-        d={hexPathStr}
-        fill={color}
-        onMouseEnter={() => dispatch(select({ ...hex }))}
-      />
+      <path d={hexPathStr} fill={color} />
 
       {typeOptions[type].renderType === "Water" ? (
         <WaterTile hex={hex} hexD={hexD} />
@@ -66,6 +62,14 @@ const Hex = ({ hex, hexElevation, hexTemp, hexD }) => {
       ) : (
         <CrossTile hex={hex} hexD={hexD} />
       )}
+      {/* RESIST THE TEMPTATION TO MAKE THIS ONHOVER !!!!! */}
+      <path
+        d={hexPathStr}
+        fill="#fff"
+        opacity={0}
+        onMouseUp={() => dispatch(select(hex_i))}
+        onTouchEnd={() => dispatch(select(hex_i))}
+      />
     </g>
   ) : (
     <></>

@@ -10,9 +10,8 @@ import SimplexNoise from "simplex-noise";
 import { mapRange } from "./utils";
 import NoiseGrid from "./components/NoiseGrid";
 import HexInspector from "./components/HexInspector";
-import { useDispatch } from "react-redux";
-import { select } from "./features/hexmap/hexmapSlice";
-import HoverMarker from "./components/hoverMarker";
+
+import InspectMarker from "./components/InspectMarker";
 
 function App() {
   const [gridLines, setGridLines] = useState(null);
@@ -21,7 +20,6 @@ function App() {
   const [grid, setGrid] = useState(null);
   const [elevationGrid, setElevationGrid] = useState(null);
   const [tempGrid, setTempGrid] = useState(null);
-  const dispatch = useDispatch();
 
   const size = 20;
 
@@ -102,7 +100,7 @@ function App() {
         <p>Loading</p>
       ) : (
         <div className="map-wrapper">
-          <HexInspector />
+          <HexInspector hexGrid={grid} />
           <svg
             className="Stage"
             viewBox={`${-0.55 * hexD.w} ${-0.2 * hexD.h} ${
@@ -110,12 +108,12 @@ function App() {
             } ${grid.pointHeight() + hexD.h * 0.1}`}
             width={grid.pointWidth() + hexD.w * 2}
             height={grid.pointHeight() + hexD.h * 2}
-            onMouseLeave={() => dispatch(select(null))}
           >
             <g>
               {gridToArr(grid).map((hex, i) => (
                 <Hex
                   key={i}
+                  hex_i={i}
                   hex={hex}
                   hexD={hexD}
                   hexElevation={hex.elevation}
@@ -126,7 +124,7 @@ function App() {
             <g>
               {gridLines ? <HexLines lines={gridLines} /> : <></>}
               {edgeLines ? <EdgeLines lines={edgeLines} /> : <></>}
-              {/* <HoverMarker hexGrid={grid} /> */}
+              <InspectMarker hexGrid={grid} />
             </g>
           </svg>
         </div>
