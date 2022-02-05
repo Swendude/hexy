@@ -8,12 +8,11 @@ const InspectMarker = ({ hexGrid }) => {
   const [hex, setHex] = useState(null);
   useEffect(() => {
     const hex = hexGrid.get(0);
-    console.log(hex);
     setHexPathStr(hexPath(hex.corners().map((cor) => cor.add(hex.toPoint()))));
   }, [hexGrid]);
 
   useEffect(() => {
-    if (inspectedHex !== 0) {
+    if (inspectedHex !== null) {
       setHex(hexGrid.get(inspectedHex));
     }
   }, [inspectedHex, hexGrid]);
@@ -27,14 +26,14 @@ const InspectMarker = ({ hexGrid }) => {
     return pathStr + " Z";
   };
   return (
-    inspectedHex && (
+    hex && (
       <path
         d={hexPathStr}
         transform={`translate(${hex.toPoint().x} ${hex.toPoint().y})`}
         stroke={"#000"}
-        opacity={0.5}
+        opacity={0.2}
         fill={"none"}
-        strokeWidth={2}
+        strokeWidth={3}
       />
     )
   );
