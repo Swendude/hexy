@@ -15,7 +15,7 @@ const _typeOptions = [
             veg_val: null,
             color: "#EDF5FD",
             pathFn: () => {
-              return "M -36 -20 Q -18 -30 0 -20 Q 18 -10 36 -20 M -42 0 Q -21 -10 0 0 Q 21 10 42 0 M -36 20 Q -18 10 0 20 Q 18 30 36 20";
+              return "M -36 -12 Q -21 -22 0 -12 Q 18 -2 36 -12 M -42 0 Q -21 -10 0 0 Q 21 10 42 0 M -36 12 Q -18 2 0 12 Q 17 22 36 12";
             },
           },
         ],
@@ -29,7 +29,7 @@ const _typeOptions = [
             veg_val: null,
             color: "#BFDBF7",
             pathFn: () => {
-              return `M -36 -20 Q -18 -30 0 -20 Q 18 -10 36 -20 M -42 0 Q -21 -10 0 0 Q 21 10 42 0 M -36 20 Q -18 10 0 20 Q 18 30 36 20`;
+              return `M -36 -12 Q -21 -22 0 -12 Q 18 -2 36 -12 M -42 0 Q -21 -10 0 0 Q 21 10 42 0 M -36 12 Q -18 2 0 12 Q 17 22 36 12`;
             },
           },
         ],
@@ -75,7 +75,7 @@ const _typeOptions = [
           {
             veg_tn: "",
             veg_val: null,
-            color: "#DDD78D",
+            color: "#DBD8AE",
             pathFn: () => {
               return "M -25 15 L 5 15 M 9 15 L 15 15 M 19 15 L 21 15 M -15 -1 L 12 -1 M 17 -1 L 25 -1 M 29 -1 L 31 -1 M -35 -25 L -5 -25 M 0 -25 L 7 -25 M 10 -25 L 14 -25 M 16 -25 L 19 -25 M -19 30 L 13 30 M 17 30 L 23 30 M 25 30 L 26 30 M -27 -14 L -13 -14 M -11 -14 L -8 -14 M -6 -14 L -4 -14";
             },
@@ -125,7 +125,7 @@ const _typeOptions = [
           {
             veg_tn: "",
             veg_val: null,
-            color: "#F1D302",
+            color: "#DDD78D",
             opacity: 0.4,
             pathFn: () => {
               return "M -38 25 L -16 -15 L 16 -15 L 38 25";
