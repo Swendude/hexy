@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
-import WaterTile from "./tiles/WaterTile";
-import GrassTile from "./tiles/GrassTile";
-import MountainTile from "./tiles/MountainTile";
-import CrossTile from "./tiles/CrossTile";
 import { determineRender } from "../utils";
 import { useDispatch } from "react-redux";
 import { select } from "../features/hexmap/hexmapSlice";
 
-const Hex = ({ hex_i, hex, hexElevation, hexTemp, hexD }) => {
+const Hex = ({ hex_i, hex, hexElevation, hexTemp, hexVegetation, hexD }) => {
   const [elevation, setElevation] = useState(null);
   const [hexPathStr, setHexPathStr] = useState(null);
   const [typePathStr, setTypePathStr] = useState(null);
@@ -15,6 +11,7 @@ const Hex = ({ hex_i, hex, hexElevation, hexTemp, hexD }) => {
   const [opacity, setOpacity] = useState(null);
   const [type, setType] = useState(null);
   const [temp, setTemp] = useState(null);
+  const [vegetation, setVegetation] = useState(null);
   const dispatch = useDispatch();
 
   const hexPath = (corners) => {
@@ -29,21 +26,21 @@ const Hex = ({ hex_i, hex, hexElevation, hexTemp, hexD }) => {
   useEffect(() => {
     setElevation(hexElevation);
     setTemp(hexTemp);
+    setVegetation(hexVegetation);
     setHexPathStr(hexPath(hex.corners().map((cor) => cor.add(hex.toPoint()))));
-  }, [hex, hexD, hexElevation, hexTemp]);
+  }, [hex, hexD, hexElevation, hexTemp, hexVegetation]);
 
   useEffect(() => {
     const { color, path, typename, opacity } = determineRender(
       elevation,
       temp,
-      null
+      vegetation
     );
-    console.log(color);
     setColor(color);
     setType(typename);
     setTypePathStr(path);
     setOpacity(opacity);
-  }, [elevation, temp]);
+  }, [elevation, temp, vegetation]);
 
   return !(type == null) && !(color == null) ? (
     <g>

@@ -7,7 +7,6 @@ import HexLines from "./components/HexLines";
 import EdgeLines from "./components/EdgeLines";
 import { FpsView } from "react-fps";
 import SimplexNoise from "simplex-noise";
-import { mapRange } from "./utils";
 import NoiseGrid from "./components/NoiseGrid";
 import HexInspector from "./components/HexInspector";
 
@@ -20,6 +19,7 @@ function App() {
   const [grid, setGrid] = useState(null);
   const [elevationGrid, setElevationGrid] = useState(null);
   const [tempGrid, setTempGrid] = useState(null);
+  const [vegetationGrid, setVegetationGrid] = useState(null);
 
   const size = 20;
 
@@ -27,6 +27,7 @@ function App() {
     if (!grid || !elevationGrid || !tempGrid) {
       const elevationNoise = new SimplexNoise();
       const tempNoise = new SimplexNoise();
+      const vegNoise = new SimplexNoise();
 
       const customHex = extendHex({
         size: size,
@@ -38,23 +39,28 @@ function App() {
       const baseGrid = g.rectangle({ width: 32, height: 26 });
       let elevation_vals = [];
       let temp_vals = [];
+      let veg_vals = [];
 
       baseGrid.map((hex) => {
         const el_val = elevationNoise.noise2D(hex.x / 10, hex.y / 10);
         const t_val = tempNoise.noise2D(hex.x / 50, hex.y / 50);
+        const v_val = vegNoise.noise2D(hex.x / 15, hex.y / 15);
 
         elevation_vals.push(el_val);
         temp_vals.push(t_val);
+        veg_vals.push(v_val);
 
         return hex.set({
           x: hex.x,
           y: hex.y,
           elevation: el_val,
           temperature: t_val,
+          vegetation: v_val,
         });
       });
       setTempGrid(temp_vals);
       setElevationGrid(elevation_vals);
+      setVegetationGrid(veg_vals);
       setGrid(baseGrid);
     }
   }, [elevationGrid, grid, tempGrid]);
@@ -106,6 +112,7 @@ function App() {
                   hexD={hexD}
                   hexElevation={hex.elevation}
                   hexTemp={hex.temperature}
+                  hexVegetation={hex.vegetation}
                 />
               ))}
             </g>
@@ -117,20 +124,24 @@ function App() {
           </svg>
         </div>
       )}
-      {/* {elevationGrid && tempGrid ? (
+      {elevationGrid && tempGrid ? (
         <div className="noise-grids">
           <div>
             <p>Elevation</p>
             <NoiseGrid grid={elevationGrid} w={grid.width} h={grid.height} />
           </div>
           <div>
-            <p>Temp</p>
+            <p>Temperature</p>
             <NoiseGrid grid={tempGrid} w={grid.width} h={grid.height} />
+          </div>
+          <div>
+            <p>Vegetation</p>
+            <NoiseGrid grid={vegetationGrid} w={grid.width} h={grid.height} />
           </div>
         </div>
       ) : (
         <></>
-      )} */}
+      )}
 
       <div>
         <FpsView />

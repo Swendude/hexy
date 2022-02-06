@@ -21,12 +21,15 @@ const HexInspector = ({ hexGrid }) => {
             <span>Type: {inspectedHex.type}</span>
             <span>Elevation: {Math.round(hex.elevation * 100)}</span>
             <span>Temperature: {Math.round(hex.temperature * 100)}</span>
+            <span>Vegetation: {Math.round(hex.vegetation * 100)}</span>
           </>
         ) : (
           <>
-            <span>Coords: none</span>
+            <span>Coords: -</span>
+            <span>Type: -</span>
             <span>Elevation: -</span>
             <span>Temperature: -</span>
+            <span>Vegetation: -</span>
           </>
         )}
       </div>

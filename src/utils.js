@@ -12,7 +12,7 @@ const typeOptions = [
         veg_options: [
           {
             veg_tn: "",
-            veg_val: null,
+            veg_max: null,
             color: "#EDF5FD",
             pathFn: () => {
               return "M -36 -12 Q -21 -22 0 -12 Q 18 -2 36 -12 M -42 0 Q -21 -10 0 0 Q 21 10 42 0 M -36 12 Q -18 2 0 12 Q 17 22 36 12";
@@ -45,11 +45,20 @@ const typeOptions = [
         temp_max: -0.6,
         veg_options: [
           {
-            veg_tn: "",
-            veg_val: null,
+            veg_tn: "barren",
+            veg_max: 0.4,
             color: "#FCF5ED",
             pathFn: () => {
               return "M -25 15 L 5 15 M 9 15 L 15 15 M 19 15 L 21 15 M -15 -1 L 12 -1 M 17 -1 L 25 -1 M 29 -1 L 31 -1 M -35 -25 L -5 -25 M 0 -25 L 7 -25 M 10 -25 L 14 -25 M 16 -25 L 19 -25 M -19 30 L 13 30 M 17 30 L 23 30 M 25 30 L 26 30 M -27 -14 L -13 -14 M -11 -14 L -8 -14 M -6 -14 L -4 -14";
+            },
+          },
+          {
+            veg_tn: "trees",
+            veg_max: 1,
+            opacity: 0.4,
+            color: "#FCF5ED",
+            pathFn: () => {
+              return "M -21 15 L -21 10 L -25 10 C -23.3333 4.3333 -21.6667 -1.3333 -20 -7 L -15 10 L -19 10 L -19 15 M 3 31 L 3 22 L -4 22 L 5 -2 L 14 22 L 7 22 L 7 31 M 20 4 L 20 -3 L 17 -3 L 21 -25 L 25 -3 L 22 -3 L 22 4 L 22 4 M -10 -13 L -10 -17 L -12 -17 L -9 -28 L -6 -17 L -8 -17 L -8 -13";
             },
           },
         ],
@@ -59,11 +68,20 @@ const typeOptions = [
         temp_max: 0.6,
         veg_options: [
           {
-            veg_tn: "",
-            veg_val: null,
+            veg_tn: "barren",
+            veg_max: 0.4,
             color: "#B6C197",
             pathFn: () => {
               return "M -27 -10 L -31 -17 M -26 -10 L -25 -14 M -25 -10 L -21 -14 M -23 -10 L -22 -12 M -21 -10 L -19 -12 M -29 -10 L -31 -12 M 14 13 L 11 10 M 15 13 L 14 8 M 17 13 L 15 9 M 20 13 L 22 10 M 19 13 L 20 8 M 15 -25 L 13 -31 M 16 -25 L 16 -29 M 20 -25 L 21 -29 M 23 -25 L 26 -27 M 13 -26 L 12 -27 M 18 -25 L 17 -33 M 22 -25 L 25 -31 M -20 23 L -21 21 M -19 23 L -19 22 M -18 23 L -16 22 M -17 23 L -16 23";
+            },
+          },
+          {
+            veg_tn: "trees",
+            veg_max: 1,
+            color: "#B6C197",
+            opacity: 0.4,
+            pathFn: () => {
+              return "M -8 34 C -3 25 -4 16 -4 5 Q -15 6 -15 -5 Q -25 -9 -20 -20 Q -23 -29 -15 -30 Q -14 -38 -7 -37 Q -5 -40 0 -40 M 8 34 C 3 25 4 16 4 5 Q 15 6 15 -5 Q 25 -9 20 -20 Q 23 -29 15 -30 Q 14 -38 7 -37 Q 5 -40 0 -40 M -32 21 C -30 17.4 -30.4 13.8 -30.4 9.4 Q -34.8 9.8 -34.8 5.4 Q -38.8 3.8 -36.8 -0.6 Q -38 -4.2 -34.8 -4.6 Q -34.4 -7.8 -31.6 -7.4 Q -30.8 -8.6 -28.8 -8.6 M -25.6 21 C -27.6 17.4 -27.2 13.8 -27.2 9.4 Q -22.8 9.8 -22.8 5.4 Q -18.8 3.8 -20.8 -0.6 Q -19.6 -4.2 -22.8 -4.6 Q -23.2 -7.8 -26 -7.4 Q -26.8 -8.6 -28.8 -8.6";
             },
           },
         ],
@@ -74,7 +92,7 @@ const typeOptions = [
         veg_options: [
           {
             veg_tn: "",
-            veg_val: null,
+            veg_max: null,
             color: "#DBD8AE",
             pathFn: () => {
               return "M -25 15 L 5 15 M 9 15 L 15 15 M 19 15 L 21 15 M -15 -1 L 12 -1 M 17 -1 L 25 -1 M 29 -1 L 31 -1 M -35 -25 L -5 -25 M 0 -25 L 7 -25 M 10 -25 L 14 -25 M 16 -25 L 19 -25 M -19 30 L 13 30 M 17 30 L 23 30 M 25 30 L 26 30 M -27 -14 L -13 -14 M -11 -14 L -8 -14 M -6 -14 L -4 -14";
@@ -94,7 +112,7 @@ const typeOptions = [
         veg_options: [
           {
             veg_tn: "",
-            veg_val: null,
+            veg_max: null,
             color: "#F9ECDC",
             opacity: 0.3,
             pathFn: () => {
@@ -109,7 +127,7 @@ const typeOptions = [
         veg_options: [
           {
             veg_tn: "",
-            veg_val: null,
+            veg_max: null,
             color: "#C46D5E",
             opacity: 0.4,
             pathFn: () => {
@@ -124,7 +142,7 @@ const typeOptions = [
         veg_options: [
           {
             veg_tn: "",
-            veg_val: null,
+            veg_max: null,
             color: "#DDD78D",
             opacity: 0.4,
             pathFn: () => {
@@ -145,7 +163,7 @@ const typeOptions = [
         veg_options: [
           {
             veg_tn: "",
-            veg_val: null,
+            veg_max: null,
             color: "#F3D9B9",
             opacity: 0.3,
             pathFn: () => {
@@ -160,7 +178,7 @@ const typeOptions = [
         veg_options: [
           {
             veg_tn: "",
-            veg_val: null,
+            veg_max: null,
             color: "#C46D5E",
             opacity: 0.4,
             pathFn: () => {
@@ -175,7 +193,7 @@ const typeOptions = [
         veg_options: [
           {
             veg_tn: "",
-            veg_val: null,
+            veg_max: null,
             color: "#DDD78D",
             opacity: 0.4,
             pathFn: () => {
@@ -227,9 +245,17 @@ const determineRender = (
   }
 
   // Determine hex vegetation type
-  for (let veg_option of temp_choice.veg_options) {
-    if (veg_option.veg_val === vegetation) {
-      veg_choice = veg_option;
+  if (temp_choice.veg_options.length === 1) {
+    veg_choice = temp_choice.veg_options[0];
+  } else {
+    const sorted_veg = [...temp_choice.veg_options].sort(
+      (a, b) => a.veg_max - b.veg_max
+    );
+    for (let veg_option of sorted_veg) {
+      if (vegetation < veg_option.veg_max) {
+        veg_choice = veg_option;
+        break;
+      }
     }
   }
 
@@ -246,26 +272,5 @@ const determineRender = (
     opacity: veg_choice.opacity || 0.2,
   };
 };
-
-// };
-
-// Render selection for hexes, should return and object with a path and color key
-// Elevation should determine the first choice,
-// then temp and finally vegetation, all three are values between 0 and 1
-
-// const determineRender = (elevation, temp, vegetation) => {
-//   for (const opt_i in typeOptions) {
-//     const opt = typeOptions[opt_i];
-//     if (elevation > opt.begin && elevation <= opt.end) {
-//       setType(parseInt(opt_i));
-//       for (const t_opt_i in typeOptions[opt_i].temp_options) {
-//         const t_opt = typeOptions[opt_i].temp_options[t_opt_i];
-//         if (temp > t_opt.begin && temp <= t_opt.end) {
-//           setColor(t_opt.color);
-//         }
-//       }
-//     }
-//   }
-// };
 
 export { mapRange, determineRender };
