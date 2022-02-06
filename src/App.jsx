@@ -40,20 +40,8 @@ function App() {
       let temp_vals = [];
 
       baseGrid.map((hex) => {
-        const el_val = mapRange(
-          elevationNoise.noise2D(hex.x / 10, hex.y / 10),
-          -1,
-          1,
-          0,
-          1
-        );
-        const t_val = mapRange(
-          tempNoise.noise2D(hex.x / 50, hex.y / 50),
-          -1,
-          1,
-          0,
-          1
-        );
+        const el_val = elevationNoise.noise2D(hex.x / 10, hex.y / 10);
+        const t_val = tempNoise.noise2D(hex.x / 50, hex.y / 50);
 
         elevation_vals.push(el_val);
         temp_vals.push(t_val);

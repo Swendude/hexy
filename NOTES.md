@@ -6,8 +6,8 @@ Generate interesting biomes
 
 Every hex has the following parameters that determines the hex's type
 
-- Elevation, how high is the hex ([0 - 1])
-- Temperature, what is the temperature of the hex ([0 - 1])
+- Elevation, how high is the hex ([-1 <-> 1])
+- Temperature, what is the temperature of the hex ([-1 <-> 1])
 - Vegetation, if there is vegetation on the hex ([0 | 1])
 
 ## Elevation types
