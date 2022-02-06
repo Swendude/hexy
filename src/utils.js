@@ -1,43 +1,14 @@
 const mapRange = (value, x1, y1, x2, y2) =>
   ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
 
-// type options for hexes
-const typeOptions = [
-  {
-    renderType: "Water",
-    begin: 0,
-    end: 0.25,
-    temp_options: [
-      { begin: 0, end: 0.2, color: "#EDF5FD" },
-      { begin: 0.2, end: 1, color: "#BFDBF7" },
-    ],
-  },
-  {
-    renderType: "Plains",
-    begin: 0.25,
-    end: 0.7,
-    temp_options: [
-      { begin: 0, end: 0.2, color: "#FCF5ED" },
-      { begin: 0.2, end: 0.8, color: "#B6C197" },
-      { begin: 0.8, end: 1, color: "#DDD78D" },
-    ],
-  },
-  {
-    renderType: "Mountain",
-    begin: 0.7,
-    end: 1,
-    temp_options: [{ begin: 0, end: 1, color: "#C46D5E" }],
-  },
-];
-
 const _typeOptions = [
   {
     elevation_tn: "water",
-    elevation_max: -0.6,
+    elevation_max: -0.5,
     temp_options: [
       {
         temp_tn: "ice",
-        temp_max: -0.3,
+        temp_max: -0.6,
         veg_options: [
           {
             veg_tn: "",
@@ -67,7 +38,7 @@ const _typeOptions = [
   },
   {
     elevation_tn: "plains",
-    elevation_max: 0.5,
+    elevation_max: 0.4,
     temp_options: [
       {
         temp_tn: "snowy",
@@ -155,6 +126,7 @@ const _typeOptions = [
             veg_tn: "",
             veg_val: null,
             color: "#F1D302",
+            opacity: 0.4,
             pathFn: () => {
               return "M -38 25 L -16 -15 L 16 -15 L 38 25";
             },
