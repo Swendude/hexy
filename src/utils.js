@@ -99,7 +99,7 @@ const typeOptions = [
             },
           },
           {
-            veg_tn: "barren",
+            veg_tn: "jungle",
             veg_max: 1,
             color: "#DBD8AE",
             opacity: 0.4,
