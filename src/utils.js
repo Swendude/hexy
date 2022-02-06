@@ -1,7 +1,7 @@
 const mapRange = (value, x1, y1, x2, y2) =>
   ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
 
-const _typeOptions = [
+const typeOptions = [
   {
     elevation_tn: "water",
     elevation_max: -0.5,
@@ -85,8 +85,8 @@ const _typeOptions = [
     ],
   },
   {
-    elevation_tn: "mountain",
-    elevation_max: 1,
+    elevation_tn: "hill",
+    elevation_max: 0.6,
     temp_options: [
       {
         temp_tn: "snowy",
@@ -95,10 +95,10 @@ const _typeOptions = [
           {
             veg_tn: "",
             veg_val: null,
-            color: "#657B7A",
+            color: "#F9ECDC",
             opacity: 0.3,
             pathFn: () => {
-              return "M -38 25 L 0 -35 L 38 25 M -15 -11 L -7 -6 L 0 -15 L 5 -10 L 12 -16";
+              return "M -40 5 Q -15 -22 10 5 M 5 0 Q 20 -11 35 0 M -5 15 Q 15 -4 35 15";
             },
           },
         ],
@@ -113,7 +113,58 @@ const _typeOptions = [
             color: "#C46D5E",
             opacity: 0.4,
             pathFn: () => {
-              return "M -38 25 L 0 -35 L 38 25";
+              return "M -40 5 Q -15 -22 10 5 M 5 0 Q 20 -11 35 0 M -5 15 Q 15 -4 35 15";
+            },
+          },
+        ],
+      },
+      {
+        temp_tn: "dunes",
+        temp_max: 1,
+        veg_options: [
+          {
+            veg_tn: "",
+            veg_val: null,
+            color: "#DDD78D",
+            opacity: 0.4,
+            pathFn: () => {
+              return "M -40 5 Q -15 -22 10 5 M 5 0 Q 20 -11 35 0 M -5 15 Q 15 -4 35 15";
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    elevation_tn: "mountain",
+    elevation_max: 1,
+    temp_options: [
+      {
+        temp_tn: "snowy",
+        temp_max: -0.6,
+        veg_options: [
+          {
+            veg_tn: "",
+            veg_val: null,
+            color: "#F3D9B9",
+            opacity: 0.3,
+            pathFn: () => {
+              return "M -30 25 L 0 -35 L 30 25 M -20 5 L -27 -5 L -41 19 M -7 -21 L -5 -13 L 0 -18 L 5 -10 L 10 -15";
+            },
+          },
+        ],
+      },
+      {
+        temp_tn: "normal",
+        temp_max: 0.6,
+        veg_options: [
+          {
+            veg_tn: "",
+            veg_val: null,
+            color: "#C46D5E",
+            opacity: 0.4,
+            pathFn: () => {
+              return "M -38 25 L -11 -30 L 15 25 M -2 -11 L 4 -20 L 20 4 M 10 15 L 23 1 L 35 16";
             },
           },
         ],
@@ -128,7 +179,7 @@ const _typeOptions = [
             color: "#DDD78D",
             opacity: 0.4,
             pathFn: () => {
-              return "M -38 25 L -16 -15 L 16 -15 L 38 25";
+              return "M -35 20 L -20 -30 L 10 -30 L 18 10 M 13 -15 L 25 -15 L 37 20 M 5 20 L 9 10 L 23 10 L 27 18";
             },
           },
         ],
@@ -141,7 +192,7 @@ const determineRender = (
   elevation,
   temp,
   vegetation,
-  options = _typeOptions
+  options = typeOptions
 ) => {
   let el_choice = null;
   let temp_choice = null;

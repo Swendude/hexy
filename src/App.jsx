@@ -117,7 +117,7 @@ function App() {
           </svg>
         </div>
       )}
-      {elevationGrid && tempGrid ? (
+      {/* {elevationGrid && tempGrid ? (
         <div className="noise-grids">
           <div>
             <p>Elevation</p>
@@ -130,7 +130,7 @@ function App() {
         </div>
       ) : (
         <></>
-      )}
+      )} */}
 
       <div>
         <FpsView />

@@ -66,8 +66,8 @@ const Hex = ({ hex_i, hex, hexElevation, hexTemp, hexD }) => {
         d={hexPathStr}
         fill="#fff"
         opacity={0}
-        onMouseUp={() => dispatch(select(hex_i))}
-        onTouchEnd={() => dispatch(select(hex_i))}
+        onMouseUp={() => dispatch(select({ hex_i, type, temp, elevation }))}
+        onTouchEnd={() => dispatch(select({ hex_i, type, temp, elevation }))}
       />
     </g>
   ) : (

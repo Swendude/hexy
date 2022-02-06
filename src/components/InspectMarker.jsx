@@ -13,7 +13,7 @@ const InspectMarker = ({ hexGrid }) => {
 
   useEffect(() => {
     if (inspectedHex !== null) {
-      setHex(hexGrid.get(inspectedHex));
+      setHex(hexGrid.get(inspectedHex.hex_i));
     }
   }, [inspectedHex, hexGrid]);
 

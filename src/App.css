@@ -4,7 +4,7 @@
 
 body {
   background-color: #686868;
-  color: #1c0b19;
+  color: #f2efea;
 }
 
 h1 {
@@ -32,4 +32,8 @@ h1 {
 
 .hex-inspect span {
   padding-right: 1em;
+}
+
+.hex-inspector {
+  padding-bottom: 0.2em;
 }

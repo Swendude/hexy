@@ -3,21 +3,22 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const HexInspector = ({ hexGrid }) => {
-  const inspectedHex_i = useSelector((state) => state.hexmap.hoveredHex);
+  const inspectedHex = useSelector((state) => state.hexmap.hoveredHex);
   const [hex, setHex] = useState(null);
   useEffect(() => {
-    if (inspectedHex_i !== null) {
-      setHex(hexGrid.get(inspectedHex_i));
+    if (inspectedHex !== null) {
+      setHex(hexGrid.get(inspectedHex.hex_i));
     }
-  }, [hexGrid, inspectedHex_i]);
+  }, [hexGrid, inspectedHex]);
   return (
-    <div>
+    <div className="hex-inspector">
       <div className="hex-inspect">
         {hex ? (
           <>
             <span>
               Coords: {hex.x}, {hex.y}
             </span>
+            <span>Type: {inspectedHex.type}</span>
             <span>Elevation: {Math.round(hex.elevation * 100)}</span>
             <span>Temperature: {Math.round(hex.temperature * 100)}</span>
           </>
