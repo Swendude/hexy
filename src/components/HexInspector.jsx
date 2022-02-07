@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import lifeforms from "../features/storymaster/lifeforms.json";
-import { determineHexValue } from "../features/storymaster/heuristic";
 
 const HexInspector = ({ hexGrid }) => {
   const inspectedHex = useSelector((state) => state.hexmap.hoveredHex);

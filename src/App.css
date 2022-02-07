@@ -1,5 +1,6 @@
 .App {
   margin-top: 0.5em;
+  font-family: monospace;
 }
 
 body {
@@ -12,6 +13,12 @@ h1 {
 }
 
 .map-wrapper {
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+}
+
+.generating {
   width: fit-content;
   height: fit-content;
   margin: auto;

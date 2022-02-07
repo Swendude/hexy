@@ -22,5 +22,54 @@
         "stats": { "might": 1, "wealth": 1 }
       }
     ]
+  },
+  {
+    "kin-name-sng": "human",
+    "kin-name-plural": "humans",
+    "start-stats": {
+      "might": 1,
+      "knowledge": 1,
+      "wealth": 1
+    },
+    "type-preferences": {
+      "preferences": [
+        { "typename": "plains grassy barren", "factor": 2 },
+        { "typename": "plains grassy trees", "factor": 3 },
+        { "typename": "water", "factor": 4 }
+      ],
+      "incompatible": ["water"]
+    },
+    "citytypes": [
+      {
+        "citytype-name": "hamlet",
+        "pop-min": 20,
+        "pop-max": 50,
+        "stats": { "knowledge": 1, "wealth": 1 }
+      }
+    ]
+  },
+  {
+    "kin-name-sng": "elf",
+    "kin-name-plural": "elves",
+    "start-stats": {
+      "might": 1,
+      "knowledge": 1,
+      "wealth": 0
+    },
+    "type-preferences": {
+      "preferences": [
+        { "typename": "plains grassy trees", "factor": 4 },
+        { "typename": "water", "factor": 1 }
+      ],
+      "incompatible": ["water"]
+    },
+    "citytypes": [
+      {
+        "citytype-name": "circle",
+        "pop-min": 5,
+        "pop-max": 10,
+        "stats": { "knowledge": 2 }
+      }
+    ]
   }
 ]
