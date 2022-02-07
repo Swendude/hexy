@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
-import { determineRender, determineType } from "../utils";
-import { useDispatch } from "react-redux";
+import { determineRender } from "../utils";
+import { determineHexValue } from "../features/storymaster/heuristic";
+import lifeforms from "../features/storymaster/lifeforms.json";
+import { useDispatch, useSelector } from "react-redux";
 import { select } from "../features/hexmap/hexmapSlice";
 
-const Hex = ({ hex_i, hex, hexElevation, hexTemp, hexVegetation, hexD }) => {
+const Hex = ({ hex_i, hex, hexD, neighbors }) => {
   const [hexPathStr, setHexPathStr] = useState(null);
   const [typePathStr, setTypePathStr] = useState(null);
-  const [type, setType] = useState(null);
   const [render, setRender] = useState(null);
   const dispatch = useDispatch();
-
+  const showOrcs = useSelector((state) => state.storymaster.showOrcs);
   const hexPath = (corners) => {
     const [first, ...others] = corners;
     let pathStr = `M${first.x}, ${first.y} `;
@@ -20,14 +21,11 @@ const Hex = ({ hex_i, hex, hexElevation, hexTemp, hexVegetation, hexD }) => {
   };
 
   useEffect(() => {
-    const type_choice = determineType(hexElevation, hexTemp, hexVegetation);
-    setType(type_choice);
-    const render = determineRender(type_choice);
+    const render = determineRender(hex.typeName);
     setRender(render);
-    console.log(render);
     setHexPathStr(hexPath(hex.corners()));
     setTypePathStr(render.pathFn());
-  }, []);
+  }, [hex]);
 
   return render ? (
     <g>
@@ -48,6 +46,20 @@ const Hex = ({ hex_i, hex, hexElevation, hexTemp, hexVegetation, hexD }) => {
           hexD.w / 100
         })`}
       />
+      {showOrcs && (
+        <text
+          fontFamily="monospace"
+          fontSize="small"
+          strokeWidth={2}
+          transform={`translate(${hex.toPoint().x},${hex.toPoint().y})`}
+        >
+          {determineHexValue(
+            lifeforms[0]["type-preferences"],
+            hex.typeName,
+            neighbors
+          )}
+        </text>
+      )}
 
       {/* RESIST THE TEMPTATION TO MAKE THIS ONHOVER !!!!! */}
       <path
@@ -57,12 +69,18 @@ const Hex = ({ hex_i, hex, hexElevation, hexTemp, hexVegetation, hexD }) => {
         transform={`translate(${hex.toPoint().x},${hex.toPoint().y})`}
         onMouseUp={() =>
           dispatch(
-            select({ hex_i, type, hexTemp, hexElevation, hexVegetation })
+            select({
+              hex_i,
+              type: hex.typeName,
+            })
           )
         }
         onTouchEnd={() =>
           dispatch(
-            select({ hex_i, type, hexTemp, hexElevation, hexVegetation })
+            select({
+              hex_i,
+              type: hex.typeName,
+            })
           )
         }
       />

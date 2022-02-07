@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import lifeforms from "../features/storymaster/lifeforms.json";
+import { determineHexValue } from "../features/storymaster/heuristic";
 
 const HexInspector = ({ hexGrid }) => {
   const inspectedHex = useSelector((state) => state.hexmap.hoveredHex);
@@ -18,7 +20,7 @@ const HexInspector = ({ hexGrid }) => {
             <span>
               Coords: {hex.x}, {hex.y}
             </span>
-            <span>Type: {inspectedHex.type}</span>
+            <span>Type: {hex.typeName}</span>
             <span>Elevation: {Math.round(hex.elevation * 100)}</span>
             <span>Temperature: {Math.round(hex.temperature * 100)}</span>
             <span>Vegetation: {Math.round(hex.vegetation * 100)}</span>

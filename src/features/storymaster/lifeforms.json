@@ -1,0 +1,26 @@
+[
+  {
+    "kin-name-sng": "orc",
+    "kin-name-plural": "orcs",
+    "start-stats": {
+      "might": 2,
+      "knowledge": 0,
+      "wealth": 0
+    },
+    "type-preferences": {
+      "preferences": [
+        { "typename": "hill normal", "factor": 3 },
+        { "typename": "plains grassy trees", "factor": 2 }
+      ],
+      "incompatible": ["water"]
+    },
+    "citytypes": [
+      {
+        "citytype-name": "burrow",
+        "pop-min": 10,
+        "pop-max": 30,
+        "stats": { "might": 1, "wealth": 1 }
+      }
+    ]
+  }
+]

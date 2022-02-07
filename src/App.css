@@ -24,6 +24,13 @@ h1 {
   display: flex;
   gap: 0.2em;
 }
+.toggles {
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+  display: flex;
+  gap: 0.2em;
+}
 
 .noise-grids p {
   font-size: 1em;

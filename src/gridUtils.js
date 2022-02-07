@@ -43,6 +43,15 @@ const generateRands = () => ({
   winner: Math.round(Math.random()),
 });
 
+const getAllHexEdges = (grid) =>
+  grid.reduce(
+    (gridEdges, hex) =>
+      [...gridEdges].concat(
+        allEdges(hex.corners().map((cor) => cor.add(hex.toPoint())))
+      ),
+    []
+  );
+
 const getEdgeLines = (grid, w, h) => {
   const lefts = grid.filter(
     (hex) => hex.coordinates().x === 0 && hex.coordinates().y % 2 === 0
@@ -95,4 +104,5 @@ export {
   allEdges,
   subDiv,
   comparePoints,
+  getAllHexEdges,
 };

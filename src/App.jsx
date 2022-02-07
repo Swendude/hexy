@@ -1,7 +1,12 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import { defineGrid, extendHex } from "honeycomb-grid";
-import { getEdgeLines, allEdges, uniqueLines } from "./gridUtils";
+import {
+  getEdgeLines,
+  allEdges,
+  uniqueLines,
+  getAllHexEdges,
+} from "./gridUtils";
 import Hex from "./components/Hex";
 import HexLines from "./components/HexLines";
 import EdgeLines from "./components/EdgeLines";
@@ -9,9 +14,12 @@ import { FpsView } from "react-fps";
 import SimplexNoise from "simplex-noise";
 import NoiseGrid from "./components/NoiseGrid";
 import HexInspector from "./components/HexInspector";
-
+import { showOrcs } from "./features/storymaster/storymasterSlice";
 import InspectMarker from "./components/InspectMarker";
-
+import { determineType } from "./utils";
+import { useDispatch } from "react-redux";
+import seedrandom from "seedrandom";
+import SeedChanger from "./components/SeedChanger";
 function App() {
   const [gridLines, setGridLines] = useState(null);
   const [edgeLines, setEdgeLines] = useState(null);
@@ -20,14 +28,21 @@ function App() {
   const [elevationGrid, setElevationGrid] = useState(null);
   const [tempGrid, setTempGrid] = useState(null);
   const [vegetationGrid, setVegetationGrid] = useState(null);
-
+  const [seed, setSeed] = useState(null);
+  const dispatch = useDispatch();
   const size = 20;
 
   useEffect(() => {
-    if (!grid || !elevationGrid || !tempGrid) {
-      const elevationNoise = new SimplexNoise();
-      const tempNoise = new SimplexNoise();
-      const vegNoise = new SimplexNoise();
+    setSeed(Math.round(Math.random() * 1000000).toString());
+  }, []);
+
+  useEffect(() => {
+    if (seed) {
+      const rng = seedrandom(seed);
+      console.log(rng());
+      const elevationNoise = new SimplexNoise(rng());
+      const tempNoise = new SimplexNoise(rng());
+      const vegNoise = new SimplexNoise(rng());
 
       const customHex = extendHex({
         size: size,
@@ -41,7 +56,7 @@ function App() {
       let temp_vals = [];
       let veg_vals = [];
 
-      baseGrid.map((hex) => {
+      baseGrid.forEach((hex) => {
         const el_val = elevationNoise.noise2D(hex.x / 10, hex.y / 10);
         const t_val = tempNoise.noise2D(hex.x / 50, hex.y / 50);
         const v_val = vegNoise.noise2D(hex.x / 15, hex.y / 15);
@@ -50,36 +65,30 @@ function App() {
         temp_vals.push(t_val);
         veg_vals.push(v_val);
 
-        return hex.set({
+        hex.set({
           x: hex.x,
           y: hex.y,
           elevation: el_val,
           temperature: t_val,
           vegetation: v_val,
+          typeName: determineType(el_val, t_val, v_val),
         });
       });
+
       setTempGrid(temp_vals);
       setElevationGrid(elevation_vals);
       setVegetationGrid(veg_vals);
       setGrid(baseGrid);
-    }
-  }, [elevationGrid, grid, tempGrid]);
-
-  useEffect(() => {
-    if (grid) {
-      setHexD({ w: grid.get(0).width(), h: grid.get(0).height() });
-      let gridEdges = [];
-      grid.forEach((hex) => {
-        gridEdges = gridEdges.concat(
-          allEdges(hex.corners().map((cor) => cor.add(hex.toPoint())))
-        );
-      });
-      const uniques = uniqueLines(gridEdges);
-      const edges = uniqueLines(getEdgeLines(grid, grid.width, grid.height));
+      setHexD({ w: baseGrid.get(0).width(), h: baseGrid.get(0).height() });
+      const allHexEdges = getAllHexEdges(baseGrid);
+      const uniques = uniqueLines(allHexEdges);
+      const edges = uniqueLines(
+        getEdgeLines(baseGrid, baseGrid.width, baseGrid.height)
+      );
       setGridLines(uniques);
       setEdgeLines(edges);
     }
-  }, [grid]);
+  }, [seed]);
 
   // Turns the grid object into an array object, usefull for mapping
   const gridToArr = (grid) => {
@@ -110,9 +119,10 @@ function App() {
                   hex_i={i}
                   hex={hex}
                   hexD={hexD}
-                  hexElevation={hex.elevation}
-                  hexTemp={hex.temperature}
-                  hexVegetation={hex.vegetation}
+                  neighbors={grid
+                    .neighborsOf(hex)
+                    .filter(Boolean)
+                    .map((hex) => hex.typeName)}
                 />
               ))}
             </g>
@@ -124,6 +134,11 @@ function App() {
           </svg>
         </div>
       )}
+      <div className="toggles">
+        <span>Seed: {seed} </span>
+        <SeedChanger setter={setSeed} />
+        <button onClick={() => dispatch(showOrcs())}>Show orcs</button>
+      </div>
       {elevationGrid && tempGrid ? (
         <div className="noise-grids">
           <div>
@@ -143,9 +158,9 @@ function App() {
         <></>
       )}
 
-      <div>
+      {/* <div>
         <FpsView />
-      </div>
+      </div> */}
     </div>
   );
 }

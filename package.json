@@ -13,6 +13,7 @@
     "react-fps": "^1.0.6",
     "react-redux": "^7.2.6",
     "react-scripts": "5.0.0",
+    "seedrandom": "^3.0.5",
     "simplex-noise": "^3.0.1",
     "web-vitals": "^2.1.4"
   },
