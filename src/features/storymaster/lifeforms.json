@@ -1,75 +1,90 @@
-[
-  {
-    "kin-name-sng": "orc",
-    "kin-name-plural": "orcs",
-    "start-stats": {
-      "might": 2,
-      "knowledge": 0,
-      "wealth": 0
+[{
+        "kin-name-sng": "orc",
+        "kin-name-plural": "orcs",
+        "start-stats": {
+            "might": 2,
+            "knowledge": 0,
+            "wealth": 0
+        },
+        "type-preferences": {
+            "preferences": [
+                { "typename": "hill normal", "factor": 3 },
+                { "typename": "plains grassy trees", "factor": 2 }
+            ],
+            "incompatible": ["water"]
+        },
+        "citytypes": [{
+            "citytype-name": "burrow",
+            "pop-min": 10,
+            "pop-max": 30,
+            "stats": { "might": 1, "wealth": 1 }
+        }]
     },
-    "type-preferences": {
-      "preferences": [
-        { "typename": "hill normal", "factor": 3 },
-        { "typename": "plains grassy trees", "factor": 2 }
-      ],
-      "incompatible": ["water"]
+    {
+        "kin-name-sng": "dwarf",
+        "kin-name-plural": "dwarves",
+        "start-stats": {
+            "might": 1,
+            "knowledge": 1,
+            "wealth": 0
+        },
+        "type-preferences": {
+            "preferences": [
+                { "typename": "mountain normal", "factor": 4 },
+                { "typename": "water", "factor": 1 }
+            ],
+            "incompatible": ["water"]
+        },
+        "citytypes": [{
+            "citytype-name": "hall",
+            "pop-min": 15,
+            "pop-max": 20,
+            "stats": { "knowledge": 1, "wealth": 1, "might": 1 }
+        }]
     },
-    "citytypes": [
-      {
-        "citytype-name": "burrow",
-        "pop-min": 10,
-        "pop-max": 30,
-        "stats": { "might": 1, "wealth": 1 }
-      }
-    ]
-  },
-  {
-    "kin-name-sng": "human",
-    "kin-name-plural": "humans",
-    "start-stats": {
-      "might": 1,
-      "knowledge": 1,
-      "wealth": 1
+    {
+        "kin-name-sng": "human",
+        "kin-name-plural": "humans",
+        "start-stats": {
+            "might": 1,
+            "knowledge": 1,
+            "wealth": 1
+        },
+        "type-preferences": {
+            "preferences": [
+                { "typename": "plains grassy barren", "factor": 3 },
+                { "typename": "plains grassy trees", "factor": 1 },
+                { "typename": "water", "factor": 4 }
+            ],
+            "incompatible": ["water"]
+        },
+        "citytypes": [{
+            "citytype-name": "hamlet",
+            "pop-min": 20,
+            "pop-max": 50,
+            "stats": { "knowledge": 1, "wealth": 1 }
+        }]
     },
-    "type-preferences": {
-      "preferences": [
-        { "typename": "plains grassy barren", "factor": 2 },
-        { "typename": "plains grassy trees", "factor": 3 },
-        { "typename": "water", "factor": 4 }
-      ],
-      "incompatible": ["water"]
-    },
-    "citytypes": [
-      {
-        "citytype-name": "hamlet",
-        "pop-min": 20,
-        "pop-max": 50,
-        "stats": { "knowledge": 1, "wealth": 1 }
-      }
-    ]
-  },
-  {
-    "kin-name-sng": "elf",
-    "kin-name-plural": "elves",
-    "start-stats": {
-      "might": 1,
-      "knowledge": 1,
-      "wealth": 0
-    },
-    "type-preferences": {
-      "preferences": [
-        { "typename": "plains grassy trees", "factor": 4 },
-        { "typename": "water", "factor": 1 }
-      ],
-      "incompatible": ["water"]
-    },
-    "citytypes": [
-      {
-        "citytype-name": "circle",
-        "pop-min": 5,
-        "pop-max": 10,
-        "stats": { "knowledge": 2 }
-      }
-    ]
-  }
+    {
+        "kin-name-sng": "elf",
+        "kin-name-plural": "elves",
+        "start-stats": {
+            "might": 1,
+            "knowledge": 1,
+            "wealth": 0
+        },
+        "type-preferences": {
+            "preferences": [
+                { "typename": "plains grassy trees", "factor": 4 },
+                { "typename": "water", "factor": 1 }
+            ],
+            "incompatible": ["water"]
+        },
+        "citytypes": [{
+            "citytype-name": "circle",
+            "pop-min": 5,
+            "pop-max": 10,
+            "stats": { "knowledge": 2 }
+        }]
+    }
 ]
