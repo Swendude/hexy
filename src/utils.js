@@ -9,15 +9,26 @@ const determineRender = (typename) =>
         pathFn: () => "M -35 35 L 35 -35 M 35 35 L -35 -35",
         opacity: 0.2,
         fill: "none",
+        fillOpacity: 0,
     });
 
 const _determineRender = (typename) => {
     switch (typename) {
+        case "camp":
+            return {
+                color: "#DBD8AE",
+                fill: "#000",
+                opacity: 0.8,
+                fillOpacity: 0.3,
+                pathFn: () =>
+                    "M -27 22.4 L -4 -19.2 L -11 -29.6 L -5 -29.6 L 0 -21.6 L 4 -29.6 L 10 -29.6 L 4 -19.2 L 25 22.4 L 10 22.4 L 0 3.2 L -10 22.4 Z",
+            };
         case "hall":
             return {
                 color: "#C46D5E",
                 fill: "#000",
                 opacity: 0.8,
+                fillOpacity: 0.3,
                 pathFn: () =>
                     "M 5 18 L 5 -2 L -6 -2 L -15 -2 L -15 18 L -42 18 L -34 -3 L -28 3 L -22 -22 L -12 -17 L -6 -33 L 8 -14 L 8 -14 L 8 -14 L 16 -24 L 22 -3 L 31 -8 L 38 2 L 38 2 L 45 18 L 5 18",
             };
@@ -26,6 +37,7 @@ const _determineRender = (typename) => {
                 color: "#B6C197",
                 fill: "#000",
                 opacity: 0.8,
+                fillOpacity: 0.3,
                 pathFn: () =>
                     "m -4 31 l -13.5 0 c 3.6 -8.1 2.7 -16.2 2.7 -26.1 q -9.9 0.9 -9.9 -9 q -9 -3.6 -4.5 -13.5 q -2.7 -8.1 4.5 -9 q 0.9 -7.2 7.2 -6.3 q 1.8 -2.7 7.2 -2.7 q 5.4 0 7.2 2.7 q 6.3 -0.9 7.2 6.3 q 7.2 0.9 3.6 9 q 5.4 9.9 -3.6 13.5 q 0 9.9 -9.9 9 c 0 9.9 -0.9 18 2.7 26.1 z m 26.1 0 l 7.2 0 l 0 -13.5 c -3.9 -4.5 -9.9 -8.1 -11.7 -13.5 c -1.8 5.4 -7.8 9 -11.7 13.5 l 0 13.5 l 7.2 0 l 0.9 -7.2 c 2.7 -10.8 4.5 -10.8 7.2 0 z",
             };
@@ -34,6 +46,7 @@ const _determineRender = (typename) => {
                 color: "#B6C197",
                 fill: "#000",
                 opacity: 0.8,
+                fillOpacity: 0.3,
                 pathFn: () =>
                     "M -28.8 20 L -28.8 -20 L 0 -30 L 28.8 -20 L 28.8 20 L 7.2 20 L 7.2 5 A 1.44 1 0 0 0 -7.2 5 L -7.2 20 Z M 14.4 -25 L 14.4 -32 L 23.04 -32 L 23.04 -22",
             };
@@ -42,6 +55,7 @@ const _determineRender = (typename) => {
                 color: "#C46D5E",
                 fill: "#000",
                 opacity: 0.8,
+                fillOpacity: 0.3,
                 pathFn: () =>
                     "M 23 18 L 8 18 A 1 1 0 0 0 -32 18 L -38 18 L -37 -3 L -28 -11 L -20 -27 L -8 -28 L 0 -23 L 12 -27 L 26 -16 L 32 3 M 23 18 L 27 3 L 38 3 L 41 18 L 23 18",
             };

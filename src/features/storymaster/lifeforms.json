@@ -1,4 +1,29 @@
 [{
+        "kin-name-sng": "lizardfolk",
+        "kin-name-plural": "lizardfolk",
+        "start-stats": {
+            "might": 1,
+            "knowledge": 1,
+            "wealth": 0
+        },
+        "type-preferences": {
+            "preferences": [
+                { "typename": "plains sandy jungle", "factor": 4 },
+                { "typename": "hill dunes", "factor": 2 },
+                { "typename": "plains sandy barren", "factor": 2 },
+                { "typename": "plains snowy", "factor": -2 },
+                { "typename": "mountain snowy", "factor": -2 },
+                { "typename": "hill snowy", "factor": -2 }
+            ],
+            "incompatible": ["water"]
+        },
+        "citytypes": [{
+            "citytype-name": "camp",
+            "pop-min": 10,
+            "pop-max": 30,
+            "stats": { "might": 1, "wealth": 1 }
+        }]
+    }, {
         "kin-name-sng": "orc",
         "kin-name-plural": "orcs",
         "start-stats": {

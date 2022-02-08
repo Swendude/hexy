@@ -84,19 +84,21 @@ function App() {
           );
         const kin_vals = gridToArr(baseGrid).map((h) => determineKinValue(h));
         const max_eval = Math.max(...kin_vals);
-        const winners = baseGrid.filter(
-          (hex) => determineKinValue(hex) === max_eval
-        );
-        const winner = winners[Math.floor(rng() * winners.length)];
+        if (max_eval > 0) {
+          const winners = baseGrid.filter(
+            (hex) => determineKinValue(hex) === max_eval
+          );
+          const winner = winners[Math.floor(rng() * winners.length)];
 
-        winner.set({
-          x: winner.x,
-          y: winner.y,
-          elevation: winner.elevation,
-          temperature: winner.temperature,
-          vegetation: winner.vegetation,
-          typeName: kin.citytypes[0]["citytype-name"],
-        });
+          winner.set({
+            x: winner.x,
+            y: winner.y,
+            elevation: winner.elevation,
+            temperature: winner.temperature,
+            vegetation: winner.vegetation,
+            typeName: kin.citytypes[0]["citytype-name"],
+          });
+        }
       }
 
       setTempGrid(temp_vals);
@@ -124,6 +126,8 @@ function App() {
       vegetationGrid
     ) {
       setGenerating(false);
+    } else {
+      setGenerating(true);
     }
   }, [grid, gridLines, edgeLines, elevationGrid, tempGrid, vegetationGrid]);
 

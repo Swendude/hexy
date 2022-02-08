@@ -41,6 +41,7 @@ const Hex = ({ hex_i, hex, hexD, neighbors }) => {
         strokeWidth={2}
         vectorEffect="non-scaling-stroke"
         opacity={render.opacity}
+        fillOpacity={render.fillOpacity}
         fill={render.fill}
         transform={`translate(${hex.toPoint().x},${hex.toPoint().y}) scale(${
           hexD.w / 100
