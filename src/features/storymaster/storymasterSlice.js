@@ -1,20 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  showOrcs: false,
+  showLifeform: "",
 };
 
 export const storymasterSlice = createSlice({
   name: "storymaster",
   initialState,
   reducers: {
-    showOrcs: (state) => {
-      state.showOrcs = !state.showOrcs;
+    showLifeForm: (state, action) => {
+      state.showLifeform = action.payload.lifeform;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { showOrcs } = storymasterSlice.actions;
+export const { showLifeForm } = storymasterSlice.actions;
 
 export default storymasterSlice.reducer;

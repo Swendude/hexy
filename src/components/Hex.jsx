@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import { determineRender } from "../utils";
-import { determineHexValue } from "../features/storymaster/heuristic";
-import lifeforms from "../features/storymaster/lifeforms.json";
 import { useDispatch, useSelector } from "react-redux";
 import { select } from "../features/hexmap/hexmapSlice";
 
-const Hex = ({ hex_i, hex, hexD, neighbors }) => {
+const Hex = ({ hex_i, hex, neighbors, typeName }) => {
   const [hexPathStr, setHexPathStr] = useState(null);
   const [typePathStr, setTypePathStr] = useState(null);
   const [render, setRender] = useState(null);
+  const showLifeform = useSelector((state) => state.storymaster.showLifeform);
   const dispatch = useDispatch();
-  const showOrcs = useSelector((state) => state.storymaster.showOrcs);
   const hexPath = (corners) => {
     const [first, ...others] = corners;
     let pathStr = `M${first.x}, ${first.y} `;
@@ -19,13 +17,14 @@ const Hex = ({ hex_i, hex, hexD, neighbors }) => {
     });
     return pathStr;
   };
+  const hexD = { w: hex.width(), h: hex.height() };
 
   useEffect(() => {
-    const render = determineRender(hex.typeName);
+    const render = determineRender(typeName);
     setRender(render);
     setHexPathStr(hexPath(hex.corners()));
     setTypePathStr(render.pathFn());
-  }, [hex]);
+  }, [hex, typeName]);
 
   return render ? (
     <g>
@@ -47,19 +46,25 @@ const Hex = ({ hex_i, hex, hexD, neighbors }) => {
           hexD.w / 100
         })`}
       />
-      {showOrcs && (
-        <text
-          fontFamily="monospace"
-          fontSize="small"
-          strokeWidth={2}
-          transform={`translate(${hex.toPoint().x},${hex.toPoint().y})`}
-        >
-          {determineHexValue(
-            lifeforms[0]["type-preferences"],
-            hex.typeName,
-            neighbors
-          )}
-        </text>
+      {showLifeform && (
+        <g>
+          <circle
+            r={10}
+            fill={"#000"}
+            opacity={0.2}
+            transform={`translate(${hex.toPoint().x},${hex.toPoint().y})`}
+          />
+          <text
+            fontFamily="monospace"
+            fontSize="small"
+            textAnchor="middle"
+            fill={"#fff"}
+            opacity={0.8}
+            transform={`translate(${hex.toPoint().x},${hex.toPoint().y + 3})`}
+          >
+            {hex.kin_vals[showLifeform]}
+          </text>
+        </g>
       )}
 
       {/* RESIST THE TEMPTATION TO MAKE THIS ONHOVER !!!!! */}

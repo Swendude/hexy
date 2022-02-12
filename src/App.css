@@ -51,3 +51,8 @@ h1 {
 .hex-inspector {
   padding-bottom: 0.2em;
 }
+
+.control {
+  display: flex;
+  flex-direction: column;
+}
