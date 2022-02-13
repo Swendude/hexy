@@ -4,15 +4,14 @@ const SeedChanger = ({ setter, seed }) => {
   const [val, setVal] = useState("");
   return (
     <div className="control">
-      <label>
-        Seed: {seed}
-        <input
-          name="seed"
-          type="number"
-          value={val}
-          onChange={(e) => setVal(e.target.value)}
-        />
-      </label>
+      <label>Seed: {seed}</label>
+      <input
+        name="seed"
+        type="number"
+        value={val}
+        onChange={(e) => setVal(e.target.value)}
+      />
+
       <button onClick={() => setter(val)}>set seed</button>
     </div>
   );

@@ -11,6 +11,7 @@ import seedrandom from "seedrandom";
 import HexWorld from "./components/HexWorld";
 import lifeforms from "./features/storymaster/lifeforms.json";
 import LifeFormInspector from "./components/LifeFormInspector";
+import Footer from "./components/Footer";
 
 function App() {
   const [mapLines, setMapLines] = useState(null);
@@ -70,6 +71,7 @@ function App() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }
