@@ -52,7 +52,7 @@ const HexWorld = ({ grid, rng }) => {
     // const highest_hexes = _world.filter(
     //   (_hex) => _hex.elevation === highest_el
     // );
-    highest_hexes.forEach((_hex) => _hex.set({ ..._hex, typeName: "highest" }));
+    highest_hexes.forEach((_hex) => _hex.set({ ..._hex }));
     // 945649
     for (const high_hex of highest_hexes) {
       let prev = null;
@@ -77,7 +77,6 @@ const HexWorld = ({ grid, rng }) => {
         if (winner.typeName.startsWith("water") || winner.river) {
           break;
         } else {
-          winner.set({ ...winner, typeName: "river" });
           prev = cur;
           cur = winner;
         }

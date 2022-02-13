@@ -33,19 +33,41 @@ const Hex = ({ hex_i, hex, neighbors, typeName }) => {
         transform={`translate(${hex.toPoint().x},${hex.toPoint().y})`}
         fill={render.color}
       />
+      {!hex.river && (
+        <path
+          d={typePathStr}
+          stroke={"#000"}
+          strokeWidth={2}
+          vectorEffect="non-scaling-stroke"
+          opacity={render.opacity}
+          fillOpacity={render.fillOpacity}
+          fill={render.fill}
+          transform={`translate(${hex.toPoint().x},${hex.toPoint().y}) scale(${
+            hexD.w / 100
+          })`}
+        />
+      )}
+      {hex.river && hex.river.from && (
+        <line
+          x1={hex.river.from.toPoint().x}
+          y1={hex.river.from.toPoint().y}
+          x2={hex.toPoint().x}
+          y2={hex.toPoint().y}
+          strokeWidth={4}
+          stroke={"#BFDBF7"}
+        />
+      )}
+      {hex.river && hex.river.to && (
+        <line
+          x1={hex.toPoint().x}
+          y1={hex.toPoint().y}
+          x2={hex.river.to.toPoint().x}
+          y2={hex.river.to.toPoint().y}
+          strokeWidth={4}
+          stroke={"#BFDBF7"}
+        />
+      )}
 
-      <path
-        d={typePathStr}
-        stroke={"#000"}
-        strokeWidth={2}
-        vectorEffect="non-scaling-stroke"
-        opacity={render.opacity}
-        fillOpacity={render.fillOpacity}
-        fill={render.fill}
-        transform={`translate(${hex.toPoint().x},${hex.toPoint().y}) scale(${
-          hexD.w / 100
-        })`}
-      />
       {showLifeform && (
         <g>
           <circle
