@@ -12,6 +12,7 @@ import HexWorld from "./components/HexWorld";
 import lifeforms from "./features/storymaster/lifeforms.json";
 import LifeFormInspector from "./components/LifeFormInspector";
 import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 function App() {
   const [mapLines, setMapLines] = useState(null);
@@ -42,6 +43,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header />
       {grid && seed && (
         <div>
           <div className="map-wrapper">

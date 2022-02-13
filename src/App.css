@@ -1,5 +1,4 @@
 .App {
-  margin-top: 0.5em;
   font-family: monospace;
 }
 
@@ -8,9 +7,9 @@ body {
   color: #f2efea;
 }
 
-h1 {
+/* h1 {
   font-size: medium;
-}
+} */
 
 .map-wrapper {
   width: fit-content;
@@ -67,4 +66,18 @@ h1 {
   background-color: black;
   margin-top: 1em;
   padding-bottom: 1em;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  background-color: black;
+  padding-left: 13em;
+  margin-bottom: 1em;
+}
+
+.heim {
+  font-weight: lighter;
 }
