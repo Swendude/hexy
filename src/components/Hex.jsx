@@ -33,21 +33,8 @@ const Hex = ({ hex_i, hex, neighbors, typeName }) => {
         transform={`translate(${hex.toPoint().x},${hex.toPoint().y})`}
         fill={render.color}
       />
-      {!hex.river && (
-        <path
-          d={typePathStr}
-          stroke={"#000"}
-          strokeWidth={2}
-          vectorEffect="non-scaling-stroke"
-          opacity={render.opacity}
-          fillOpacity={render.fillOpacity}
-          fill={render.fill}
-          transform={`translate(${hex.toPoint().x},${hex.toPoint().y}) scale(${
-            hexD.w / 100
-          })`}
-        />
-      )}
-      {hex.river && hex.river.from && (
+      )
+      {/* {hex.river && hex.river.from && (
         <line
           x1={hex.river.from.toPoint().x}
           y1={hex.river.from.toPoint().y}
@@ -66,8 +53,19 @@ const Hex = ({ hex_i, hex, neighbors, typeName }) => {
           strokeWidth={4}
           stroke={"#BFDBF7"}
         />
-      )}
-
+      )} */}
+      <path
+        d={typePathStr}
+        stroke={"#000"}
+        strokeWidth={2}
+        vectorEffect="non-scaling-stroke"
+        opacity={render.opacity}
+        fillOpacity={render.fillOpacity}
+        fill={render.fill}
+        transform={`translate(${hex.toPoint().x},${hex.toPoint().y}) scale(${
+          hexD.w / 100
+        })`}
+      />
       {showLifeform && (
         <g>
           <circle
@@ -88,7 +86,6 @@ const Hex = ({ hex_i, hex, neighbors, typeName }) => {
           </text>
         </g>
       )}
-
       {/* RESIST THE TEMPTATION TO MAKE THIS ONHOVER !!!!! */}
       <path
         d={hexPathStr}

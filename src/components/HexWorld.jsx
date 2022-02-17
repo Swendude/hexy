@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Hex from "./Hex";
 import SimplexNoise from "simplex-noise";
-
+import HexRivers from "./HexRivers";
 import { determineType } from "../utils";
 import { determineHexValue } from "../features/storymaster/heuristic";
 import lifeforms from "../features/storymaster/lifeforms.json";
@@ -10,6 +10,16 @@ const gridToArr = (grid) => {
   const hexes = [];
   grid.forEach((hex) => hexes.push(hex));
   return hexes;
+};
+
+const random_point_hex = (_hex, rng) => {
+  const r = _hex.size.xRadius * Math.sqrt(rng());
+  const theta = rng() * 2 * Math.PI;
+  const p = {
+    x: _hex.toPoint().x + r * Math.cos(theta),
+    y: _hex.toPoint().y + r * Math.sin(theta),
+  };
+  return p;
 };
 
 const HexWorld = ({ grid, rng }) => {
@@ -35,49 +45,66 @@ const HexWorld = ({ grid, rng }) => {
         temperature: t_val,
         vegetation: v_val,
         typeName: determineType(el_val, t_val, v_val),
-        river: null,
+        river: { from: [], to: [] },
+        river_ctrl: random_point_hex(_hex, rng),
       });
     });
     // -- GENERATE RIVERS
-    const river_count = Math.ceil(rng() * 3);
-    const highest_hexes = [...gridToArr(_world)]
+    const river_count = Math.ceil(rng() * 8);
+    // get the highest hexes
+    const potential_sources = [];
+
+    [...gridToArr(_world)]
       .filter((_hex) => _hex.typeName.startsWith("mountain normal"))
-      .sort((fst, snd) => snd.elevation - fst.elevation)
-      .slice(0, river_count);
-    // const highest_el = Math.max(
-    //   ...gridToArr(_world)
-    //     .filter((_hex) => _hex.typeName.startsWith("mountain normal"))
-    //     .map((_hex) => _hex.elevation)
-    // );
-    // const highest_hexes = _world.filter(
-    //   (_hex) => _hex.elevation === highest_el
-    // );
-    highest_hexes.forEach((_hex) => _hex.set({ ..._hex }));
-    // 945649
-    for (const high_hex of highest_hexes) {
-      let prev = null;
+      .forEach((_hex) => {
+        // Remove mountains that are next to each other
+        if (
+          potential_sources.filter((mnt) => _hex.distance(mnt) < 3).length === 0
+        ) {
+          potential_sources.push(_hex);
+        }
+      });
+
+    potential_sources.sort((fst, snd) => snd.elevation - fst.elevation);
+    const sources =
+      potential_sources.length > river_count
+        ? potential_sources.slice(0, river_count)
+        : potential_sources;
+
+    // highest_hexes.forEach((_hex) => _hex.set({ ..._hex }));
+
+    for (const high_hex of sources) {
       let cur = high_hex;
 
       while (true) {
         const nbs = _world.neighborsOf(cur);
-        const edges = nbs.filter((_hex) => _hex === undefined);
-        if (edges.length > 0) {
-          cur.set({ ...cur, river: { from: prev, to: null } });
-          break;
-        }
+
         const lowest_nbs_elevation = Math.min(
-          ...nbs.map((_hex) => _hex.elevation)
+          ...nbs
+            .filter((_hex) => _hex !== undefined)
+            .map((_hex) => _hex.elevation)
         );
         const candidates = nbs.filter(
-          (_hex) => _hex.elevation === lowest_nbs_elevation
+          (_hex) =>
+            _hex === undefined || _hex.elevation === lowest_nbs_elevation
         );
-
+        // Pick a random lowest neighbour/edge
         const winner = candidates[Math.floor(rng() * candidates.length)];
-        cur.set({ ...cur, river: { from: prev, to: winner } });
-        if (winner.typeName.startsWith("water") || winner.river) {
+        cur.set({
+          ...cur,
+          river: { ...cur.river, to: [...cur.river.to, winner] },
+        });
+        // Hit a edge
+        if (winner === undefined) {
+          break;
+        }
+        winner.set({
+          ...winner,
+          river: { ...winner.river, from: [...winner.river.from, cur] },
+        });
+        if (winner.typeName.startsWith("water")) {
           break;
         } else {
-          prev = cur;
           cur = winner;
         }
       }
@@ -126,6 +153,14 @@ const HexWorld = ({ grid, rng }) => {
         {gridToArr(world).map((hex, i) => (
           <Hex key={i} hex_i={i} hex={hex} typeName={hex.typeName} />
         ))}
+        <HexRivers
+          sources={gridToArr(
+            world.filter(
+              (_hex) =>
+                _hex.river.from.length === 0 && _hex.river.to.length !== 0
+            )
+          )}
+        />
       </g>
     )
   );
