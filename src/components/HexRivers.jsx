@@ -1,23 +1,22 @@
+import Bezier from "paths-js/bezier";
+
 const generateRiverPath = (source) => {
-  let pathStr = `
-    M${source.toPoint().x} ${source.toPoint().y} 
-    Q ${source.toPoint().x} ${source.toPoint().y} 
-    ${source.river.to[0].toPoint().x} ${source.river.to[0].toPoint().y} `;
+  let points = [[source.toPoint().x, source.toPoint().y]];
+
   let cur = source;
   while (true) {
     const next = cur.river.to[0];
     if (next) {
-      pathStr += `Q
-      ${next.river_ctrl.x}
-      ${next.river_ctrl.y} 
-      ${next.toPoint().x}
-      ${next.toPoint().y} `;
+      points.push([next.river_ctrl.x, next.river_ctrl.y]);
       cur = next;
     } else {
       break;
     }
   }
-  return pathStr;
+
+  return Bezier({
+    points: points,
+  }).path.print();
 };
 
 const HexRivers = ({ sources }) => {
@@ -28,8 +27,9 @@ const HexRivers = ({ sources }) => {
           key={i}
           d={generateRiverPath(source)}
           fill="none"
-          stroke="blue"
-          strokeWidth={6}
+          stroke="#BFDBF7"
+          strokeWidth={5}
+          strokeLinecap="round"
         />
       ))}
     </g>

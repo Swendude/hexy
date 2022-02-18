@@ -3,7 +3,7 @@ import { determineRender } from "../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { select } from "../features/hexmap/hexmapSlice";
 
-const Hex = ({ hex_i, hex, neighbors, typeName }) => {
+const HexRender = ({ hex_i, hex, neighbors, typeName }) => {
   const [hexPathStr, setHexPathStr] = useState(null);
   const [typePathStr, setTypePathStr] = useState(null);
   const [render, setRender] = useState(null);
@@ -25,39 +25,13 @@ const Hex = ({ hex_i, hex, neighbors, typeName }) => {
     setHexPathStr(hexPath(hex.corners()));
     setTypePathStr(render.pathFn());
   }, [hex, typeName]);
-
   return render ? (
     <g>
-      <path
-        d={hexPathStr}
-        transform={`translate(${hex.toPoint().x},${hex.toPoint().y})`}
-        fill={render.color}
-      />
-      )
-      {/* {hex.river && hex.river.from && (
-        <line
-          x1={hex.river.from.toPoint().x}
-          y1={hex.river.from.toPoint().y}
-          x2={hex.toPoint().x}
-          y2={hex.toPoint().y}
-          strokeWidth={4}
-          stroke={"#BFDBF7"}
-        />
-      )}
-      {hex.river && hex.river.to && (
-        <line
-          x1={hex.toPoint().x}
-          y1={hex.toPoint().y}
-          x2={hex.river.to.toPoint().x}
-          y2={hex.river.to.toPoint().y}
-          strokeWidth={4}
-          stroke={"#BFDBF7"}
-        />
-      )} */}
       <path
         d={typePathStr}
         stroke={"#000"}
         strokeWidth={2}
+        strokeOpacity={1}
         vectorEffect="non-scaling-stroke"
         opacity={render.opacity}
         fillOpacity={render.fillOpacity}
@@ -114,5 +88,4 @@ const Hex = ({ hex_i, hex, neighbors, typeName }) => {
     <></>
   );
 };
-
-export default Hex;
+export default HexRender;

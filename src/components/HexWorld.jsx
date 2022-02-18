@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import Hex from "./Hex";
+import HexBase from "./HexBase";
 import SimplexNoise from "simplex-noise";
 import HexRivers from "./HexRivers";
 import { determineType } from "../utils";
 import { determineHexValue } from "../features/storymaster/heuristic";
 import lifeforms from "../features/storymaster/lifeforms.json";
+import HexRender from "./HexRender";
 // Turns the grid object into an array object, usefull for mapping
 const gridToArr = (grid) => {
   const hexes = [];
@@ -12,8 +13,8 @@ const gridToArr = (grid) => {
   return hexes;
 };
 
-const random_point_hex = (_hex, rng) => {
-  const r = _hex.size.xRadius * Math.sqrt(rng());
+const random_point_hex = (_hex, rng, w) => {
+  const r = w * Math.sqrt(rng());
   const theta = rng() * 2 * Math.PI;
   const p = {
     x: _hex.toPoint().x + r * Math.cos(theta),
@@ -46,7 +47,7 @@ const HexWorld = ({ grid, rng }) => {
         vegetation: v_val,
         typeName: determineType(el_val, t_val, v_val),
         river: { from: [], to: [] },
-        river_ctrl: random_point_hex(_hex, rng),
+        river_ctrl: random_point_hex(_hex, rng, _hex.size.xRadius * 0.5),
       });
     });
     // -- GENERATE RIVERS
@@ -110,35 +111,35 @@ const HexWorld = ({ grid, rng }) => {
       }
     }
     // -- GENERATE INHABITANTS--
-    // const world = terrain.map((_hex) => {
-    //   const nbs = terrain.neighborsOf(_hex).filter(Boolean);
+    const world = _world.map((_hex) => {
+      const nbs = _world.neighborsOf(_hex).filter(Boolean);
 
-    //   const kin_vals = {};
-    //   for (const kin of lifeforms) {
-    //     kin_vals[kin["kin-name-plural"]] = determineHexValue(
-    //       kin["type-preferences"],
-    //       _hex.typeName,
-    //       [_hex, ...nbs].map((h) => h.typeName)
-    //     );
-    //   }
-    //   return _hex.set({
-    //     ..._hex,
-    //     neighbors: nbs,
-    //     kin_vals: kin_vals,
-    //   });
-    // });
+      const kin_vals = {};
+      for (const kin of lifeforms) {
+        kin_vals[kin["kin-name-plural"]] = determineHexValue(
+          kin["type-preferences"],
+          _hex.typeName,
+          [_hex, ...nbs].map((h) => h.typeName)
+        );
+      }
+      return _hex.set({
+        ..._hex,
+        neighbors: nbs,
+        kin_vals: kin_vals,
+      });
+    });
 
-    // const worldArray = gridToArr(world);
-    // for (const kin of lifeforms) {
-    //   const highest = Math.max(
-    //     ...worldArray.map((_hex) => _hex.kin_vals[kin["kin-name-plural"]])
-    //   );
-    //   const winners = world.filter(
-    //     (_hex) => _hex.kin_vals[kin["kin-name-plural"]] === highest
-    //   );
-    //   const winner = winners[Math.floor(rng() * winners.length)];
-    //   winner.set({ ...winner, typeName: kin.citytypes[0]["citytype-name"] });
-    // }
+    const worldArray = gridToArr(world);
+    for (const kin of lifeforms) {
+      const highest = Math.max(
+        ...worldArray.map((_hex) => _hex.kin_vals[kin["kin-name-plural"]])
+      );
+      const winners = world.filter(
+        (_hex) => _hex.kin_vals[kin["kin-name-plural"]] === highest
+      );
+      const winner = winners[Math.floor(rng() * winners.length)];
+      winner.set({ ...winner, typeName: kin.citytypes[0]["citytype-name"] });
+    }
 
     console.timeEnd("worldgen");
     // BENCHMARK TRACKING
@@ -151,7 +152,7 @@ const HexWorld = ({ grid, rng }) => {
     world && (
       <g>
         {gridToArr(world).map((hex, i) => (
-          <Hex key={i} hex_i={i} hex={hex} typeName={hex.typeName} />
+          <HexBase key={i} hex_i={i} hex={hex} typeName={hex.typeName} />
         ))}
         <HexRivers
           sources={gridToArr(
@@ -161,6 +162,9 @@ const HexWorld = ({ grid, rng }) => {
             )
           )}
         />
+        {gridToArr(world).map((hex, i) => (
+          <HexRender key={i} hex_i={i} hex={hex} typeName={hex.typeName} />
+        ))}
       </g>
     )
   );
