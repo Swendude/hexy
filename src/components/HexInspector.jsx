@@ -22,6 +22,10 @@ const HexInspector = ({ hexGrid }) => {
             <span>Elevation: {Math.round(hex.elevation * 100)}</span>
             <span>Temperature: {Math.round(hex.temperature * 100)}</span>
             <span>Vegetation: {Math.round(hex.vegetation * 100)}</span>
+            <span>
+              next_river: {hex.river.to[0] && hex.river.to[0].x},
+              {hex.river.to[0] && hex.river.to[0].y}
+            </span>
           </>
         ) : (
           <>

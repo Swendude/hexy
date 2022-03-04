@@ -3,7 +3,7 @@ import { determineRender } from "../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { select } from "../features/hexmap/hexmapSlice";
 
-const Hex = ({ hex_i, hex, neighbors, typeName }) => {
+const HexRender = ({ hex_i, hex, neighbors, typeName }) => {
   const [hexPathStr, setHexPathStr] = useState(null);
   const [typePathStr, setTypePathStr] = useState(null);
   const [render, setRender] = useState(null);
@@ -25,19 +25,13 @@ const Hex = ({ hex_i, hex, neighbors, typeName }) => {
     setHexPathStr(hexPath(hex.corners()));
     setTypePathStr(render.pathFn());
   }, [hex, typeName]);
-
   return render ? (
     <g>
-      <path
-        d={hexPathStr}
-        transform={`translate(${hex.toPoint().x},${hex.toPoint().y})`}
-        fill={render.color}
-      />
-
       <path
         d={typePathStr}
         stroke={"#000"}
         strokeWidth={2}
+        strokeOpacity={1}
         vectorEffect="non-scaling-stroke"
         opacity={render.opacity}
         fillOpacity={render.fillOpacity}
@@ -66,7 +60,6 @@ const Hex = ({ hex_i, hex, neighbors, typeName }) => {
           </text>
         </g>
       )}
-
       {/* RESIST THE TEMPTATION TO MAKE THIS ONHOVER !!!!! */}
       <path
         d={hexPathStr}
@@ -95,5 +88,4 @@ const Hex = ({ hex_i, hex, neighbors, typeName }) => {
     <></>
   );
 };
-
-export default Hex;
+export default HexRender;

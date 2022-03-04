@@ -13,6 +13,7 @@ import lifeforms from "./features/storymaster/lifeforms.json";
 import LifeFormInspector from "./components/LifeFormInspector";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import HexRivers from "./components/HexRivers";
 
 function App() {
   const [mapLines, setMapLines] = useState(null);
